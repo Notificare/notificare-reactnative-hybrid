@@ -1,0 +1,19 @@
+{
+  "root": true,
+  "extends": [
+    "@react-native-community",
+    "prettier",
+    "prettier/react"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "import",
+    "unicorn"
+  ],
+  "rules": {
+    "import/order": "error",
+    "unicorn/filename-case": "error",
+    "object-curly-spacing": ["warn", "always"],
+    "react/jsx-tag-spacing": ["warn", { "beforeSelfClosing": "always" }]
+  }
+}
