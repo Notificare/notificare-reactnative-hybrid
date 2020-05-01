@@ -11,6 +11,7 @@ export const Splash: FC = () => {
   const notificare = useNotificare({
     onReady: async () => {
       console.log('Notificare is ready.');
+      await notificare.addTag('react-native');
 
       // TODO fetch config
       // TODO fetch custom script
