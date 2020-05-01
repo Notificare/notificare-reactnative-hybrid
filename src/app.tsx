@@ -6,10 +6,16 @@ import { Theme } from '@react-navigation/native/lib/typescript/src/types';
 import { Onboarding } from './containers/onboarding';
 import { Home } from './containers/home';
 import { Colors } from './theme';
+import { useNotificare } from './notificare/hooks';
 
 const Stack = createStackNavigator();
 
 export const App: FC = () => {
+  useNotificare({
+    onReady: () => console.log('Notificare is ready.'),
+    onDeviceRegistered: () => console.log('Device is registered.'),
+  });
+
   const theme: Theme = {
     ...DefaultTheme,
     dark: false,
