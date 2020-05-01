@@ -59,6 +59,22 @@ export class Notificare {
     return this.notificareModule.fetchAssets(group);
   }
 
+  registerForNotifications(): void {
+    this.notificareModule.registerForNotifications();
+  }
+
+  unregisterForNotifications(): void {
+    this.notificareModule.unregisterForNotifications();
+  }
+
+  isLocationServicesEnabled(): Promise<boolean> {
+    return this.notificareModule.isLocationServicesEnabled();
+  }
+
+  startLocationUpdates(): void {
+    this.notificareModule.startLocationUpdates();
+  }
+
   // endregion
 
   // region Listeners

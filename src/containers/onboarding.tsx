@@ -6,6 +6,9 @@ import { Loader } from '../components/loader';
 import { useNetworkRequest } from '../machines/network';
 import { NotificareAsset } from '../notificare/models';
 import { Colors } from '../theme';
+import { checkLocationPermission, requestLocationPermission } from '../utils/permissions';
+import { setOnboardingStatus } from '../utils/storage';
+import { StackActions, useNavigation } from '@react-navigation/native';
 
 export const Onboarding: FC = () => {
   const notificare = useNotificare();
@@ -14,22 +17,35 @@ export const Onboarding: FC = () => {
   const [page, setPage] = useState(0);
   const viewPagerRef = useRef<ViewPager>();
 
-  const onButtonPress = (asset: NotificareAsset) => {
+  const navigation = useNavigation();
+
+  const onButtonPress = async (asset: NotificareAsset) => {
     switch (asset.assetButton?.action) {
       case 'goToLocationServices':
-        registerForNotifications();
+        notificare.registerForNotifications();
         break;
       case 'goToApp':
-        startLocationUpdates();
+        await startLocationUpdates();
         return;
     }
 
     viewPagerRef.current?.setPage(page + 1);
   };
 
-  const registerForNotifications = () => {};
+  const startLocationUpdates = async () => {
+    const granted = (await checkLocationPermission()) || (await requestLocationPermission());
+    if (!granted) {
+      console.log('The user did not grant the location permission.');
+      return;
+    }
 
-  const startLocationUpdates = () => {};
+    console.log('Enabling location updates.');
+    notificare.startLocationUpdates();
+    // TODO enable beacons
+
+    await setOnboardingStatus(true);
+    navigation.dispatch(StackActions.replace('home'));
+  };
 
   return (
     <>
