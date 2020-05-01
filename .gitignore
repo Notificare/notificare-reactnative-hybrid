@@ -62,6 +62,8 @@ buck-out/
 # CocoaPods
 /ios/Pods/
 
+# Heap profiles
+*.hprof
 
 # Google services
 google-services.json
