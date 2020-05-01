@@ -1,94 +1,27 @@
 import React, { FC } from 'react';
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { createStackNavigator } from '@react-navigation/stack';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import { Splash } from './containers/splash';
+import { Theme } from '@react-navigation/native/lib/typescript/src/types';
 
-declare const global: { HermesInternal: null | {} };
+const Stack = createStackNavigator();
 
 export const App: FC = () => {
+  const theme: Theme = {
+    ...DefaultTheme,
+    dark: false,
+    colors: {
+      ...DefaultTheme.colors,
+      background: '#F6F6F6', // wild sand
+      primary: '#232C2A', // outer space
+    },
+  };
+
   return (
-    <>
-      <StatusBar barStyle="default" />
-      <SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.tsx</Text> to change this screen and then come back to see your
-                edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>Read the docs to discover what to do next:</Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+    <NavigationContainer theme={theme}>
+      <Stack.Navigator initialRouteName="splash">
+        <Stack.Screen name="splash" component={Splash} options={{ title: 'Splash', headerShown: false }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
