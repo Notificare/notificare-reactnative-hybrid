@@ -1,4 +1,13 @@
-apply plugin: "com.android.application"
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 import com.android.build.OutputFile
 
@@ -78,7 +87,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: false,  // clean and rebuild if changing
+        enableHermes: false,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -134,6 +143,13 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
+
+        manifestPlaceholders = [
+                appScheme       : 're.notifica',
+                notificareHost  : 'push.notifica.re',
+                notificareAppId : '5e845721b4f0f36c86bcb10a',
+                googleMapsApiKey: localProperties.getProperty('app.googleMapsApiKey'),
+        ]
     }
     splits {
         abi {
@@ -143,10 +159,22 @@ android {
             include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
-    buildTypes {
+    signingConfigs {
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://facebook.github.io/react-native/docs/signed-apk-android.
+            storeFile file('release.keystore')
+            storePassword localProperties.getProperty('app.signing.store.password')
+            keyAlias localProperties.getProperty('app.signing.key.alias')
+            keyPassword localProperties.getProperty('app.signing.key.password')
+        }
+    }
+    buildTypes {
+        debug {
+            manifestPlaceholders = [
+                    notificareAppId: '585702253cad4414df0e3b20',
+            ]
+        }
+        release {
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -183,15 +211,15 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
-      exclude group:'com.facebook.fbjni'
+        exclude group: 'com.facebook.fbjni'
     }
 
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
-        exclude group:'com.facebook.flipper'
+        exclude group: 'com.facebook.flipper'
     }
 
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
-        exclude group:'com.facebook.flipper'
+        exclude group: 'com.facebook.flipper'
     }
 
     if (enableHermes) {
