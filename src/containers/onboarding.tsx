@@ -1,13 +1,13 @@
 import React, { FC, useRef, useState } from 'react';
 import { Button, Image, StyleSheet, Text, View } from 'react-native';
 import ViewPager from '@react-native-community/viewpager';
-import { useNotificare } from '../notificare/hooks';
+import { useNotificare } from '../lib/notificare/hooks';
 import { Loader } from '../components/loader';
-import { useNetworkRequest } from '../machines/network';
-import { NotificareAsset } from '../notificare/models';
-import { Colors } from '../theme';
-import { checkLocationPermission, requestLocationPermission } from '../utils/permissions';
-import { setOnboardingStatus } from '../utils/storage';
+import { useNetworkRequest } from '../lib/machines/network';
+import { NotificareAsset } from '../lib/notificare/models';
+import { Colors } from '../lib/theme';
+import { checkLocationPermission, requestLocationPermission } from '../lib/utils/permissions';
+import { setOnboardingStatus } from '../lib/utils/storage';
 import { StackActions, useNavigation } from '@react-navigation/native';
 
 export const Onboarding: FC = () => {
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   page: {
-    backgroundColor: 'red',
+    backgroundColor: Colors.wildSand,
   },
   pageImage: {
     width: '100%',
