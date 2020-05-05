@@ -75,6 +75,16 @@ export class Notificare {
     this.notificareModule.startLocationUpdates();
   }
 
+  doCloudHostOperation(
+    verb: HttpVerb,
+    path: string,
+    params?: Record<string, string>,
+    headers?: Record<string, string>,
+    body?: any,
+  ): Promise<any> {
+    return this.notificareModule.doCloudHostOperation(verb, path, params, headers, body);
+  }
+
   // endregion
 
   // region Listeners
@@ -102,3 +112,5 @@ export class Notificare {
 type NotificareModule =
   | typeof NativeModules.NotificareReactNativeAndroid
   | typeof NativeModules.NotificareReactNativeIOS;
+
+type HttpVerb = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
