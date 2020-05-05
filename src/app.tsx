@@ -5,8 +5,8 @@ import { Splash } from './containers/splash';
 import { Theme } from '@react-navigation/native/lib/typescript/src/types';
 import { Onboarding } from './containers/onboarding';
 import { Home } from './containers/home';
-import { Colors } from './theme';
-import { useNotificare } from './notificare/hooks';
+import { Colors } from './lib/theme';
+import { useNotificare } from './lib/notificare/hooks';
 
 const Stack = createStackNavigator();
 
@@ -31,7 +31,7 @@ export const App: FC = () => {
       <Stack.Navigator initialRouteName="splash">
         <Stack.Screen name="splash" component={Splash} options={{ title: 'Splash', headerShown: false }} />
         <Stack.Screen name="onboarding" component={Onboarding} options={{ title: 'Onboarding', headerShown: false }} />
-        <Stack.Screen name="home" component={Home} options={{ title: 'Home' }} />
+        <Stack.Screen name="home" component={Home} options={{ title: 'Home', headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
