@@ -1,50 +1,54 @@
-import React, { FC, useEffect, useRef } from 'react';
-import { Linking, StyleSheet } from 'react-native';
+import React, { FC, useEffect } from 'react';
+import { Linking } from 'react-native';
 import WebView from 'react-native-webview';
 import { useNetworkRequest } from '../lib/machines/network';
 import { getDemoSourceConfig } from '../lib/utils/storage';
 import { Loader } from '../components/loader';
-import { WebViewNavigation } from 'react-native-webview/lib/WebViewTypes';
 import { useNavigation } from '@react-navigation/native';
+import * as URL from 'url';
 
 export const Home: FC = () => {
   const [state] = useNetworkRequest(getDemoSourceConfig(), { autoStart: true });
   useDeepLinking();
 
-  const handleNavigationRequest = (event: WebViewNavigation) => {
-    console.log('handleNavigationRequest');
-    console.log(event);
-    return true;
-  };
-
   return (
     <>
       {(state.status == 'idle' || state.status == 'pending') && <Loader />}
 
-      {state.status == 'successful' && (
-        <WebView
-          source={{ uri: state.result!.url }}
-          javaScriptEnabled={true}
-          onShouldStartLoadWithRequest={(event) => handleNavigationRequest(event)}
-        />
-      )}
+      {state.status == 'successful' && <WebView source={{ uri: state.result!.url }} javaScriptEnabled={true} />}
     </>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
 const useDeepLinking = () => {
   const navigation = useNavigation();
 
-  const handleDeepLinkingUrl = (url: string | null) => {
-    console.log(`Received a deep link: ${url}`);
+  const handleDeepLinkingUrl = (urlStr: string | null) => {
+    if (urlStr == null) {
+      console.debug('Received a deep link but its URL is null. Skipping...');
+      return;
+    }
+
+    console.debug(`Received a deep link: ${urlStr}`);
+    const url = URL.parse(urlStr);
+
+    switch (url.path) {
+      case '/inbox':
+      case '/settings':
+      case '/regions':
+      case '/beacons':
+      case '/profile':
+      case '/membercard':
+      case '/signin':
+      case '/signup':
+      case '/analytics':
+      case '/storage':
+        navigation.navigate(url.path);
+        break;
+      case '/scan':
+        // TODO start scannable session
+        break;
+    }
   };
 
   // Removing a listener requires a reference to the original listener.
@@ -53,7 +57,9 @@ const useDeepLinking = () => {
   useEffect(() => {
     // Check if the app was started with a deep link.
     Linking.getInitialURL()
-      .then((url) => handleDeepLinkingUrl(url))
+      .then((url) => {
+        if (url != null) handleDeepLinkingUrl(url);
+      })
       .catch((e) => console.log(`Failed to get the initial deep link: ${e}`));
 
     // Listen for deep linking event.
