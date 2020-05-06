@@ -30,17 +30,6 @@ export class Notificare {
   unmount() {
     this.notificareModule.unmount();
     this.eventEmitter.removeAllListeners();
-    //
-    // switch (Platform.OS) {
-    //   case 'android':
-    //     DeviceEventEmitter.removeAllListeners();
-    //     break;
-    //   case 'ios':
-    //     // Not needed for iOS.
-    //     break;
-    //   default:
-    //     throw new Error(`Unsupported platform: ${Platform.OS}`);
-    // }
   }
 
   addTag(tag: string): Promise<void> {
@@ -96,10 +85,8 @@ export class Notificare {
   listen(event: string, callback: (data: any) => void) {
     switch (Platform.OS) {
       case 'android':
-        DeviceEventEmitter.addListener(event, callback);
-        break;
       case 'ios':
-        this.eventEmitter?.addListener(event, callback);
+        this.eventEmitter.addListener(event, callback);
         break;
       default:
         throw new Error(`Unsupported platform: ${Platform.OS}`);
