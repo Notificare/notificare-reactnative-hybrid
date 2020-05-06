@@ -5,6 +5,7 @@ import { NotificareAsset } from './models';
 export class Notificare {
   private readonly notificareModule: NotificareModule;
   private readonly eventEmitter: EventEmitter;
+  private listeners: Array<{ event: string; callback: (...args: any[]) => any }> = [];
 
   constructor() {
     switch (Platform.OS) {
@@ -29,7 +30,7 @@ export class Notificare {
 
   unmount() {
     this.notificareModule.unmount();
-    this.eventEmitter.removeAllListeners();
+    this.listeners.forEach(({ event, callback }) => this.eventEmitter.removeListener(event, callback));
   }
 
   addTag(tag: string): Promise<void> {
@@ -86,6 +87,7 @@ export class Notificare {
     switch (Platform.OS) {
       case 'android':
       case 'ios':
+        this.listeners.push({ event, callback });
         this.eventEmitter.addListener(event, callback);
         break;
       default:
