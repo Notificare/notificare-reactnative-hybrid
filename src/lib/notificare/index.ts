@@ -1,6 +1,6 @@
 import { DeviceEventEmitter, EventEmitter, NativeEventEmitter, NativeModules, Platform } from 'react-native';
 import { OnDeviceRegisteredCallback, OnReadyCallback } from './events';
-import { NotificareAsset } from './models';
+import { NotificareAsset, NotificareUser } from './models';
 
 export class Notificare {
   private readonly notificareModule: NotificareModule;
@@ -73,6 +73,18 @@ export class Notificare {
     body?: any,
   ): Promise<any> {
     return this.notificareModule.doCloudHostOperation(verb, path, params, headers, body);
+  }
+
+  isLoggedIn(): Promise<boolean> {
+    return this.notificareModule.isLoggedIn();
+  }
+
+  login(email: string, password: string): Promise<void> {
+    return this.notificareModule.login(email, password);
+  }
+
+  fetchAccountDetails(): Promise<NotificareUser> {
+    return this.notificareModule.fetchAccountDetails();
   }
 
   // endregion

@@ -49,3 +49,10 @@ export interface NotificareAsset {
     action?: string;
   };
 }
+
+export interface NotificareUser {
+  userID: string;
+  userName: string;
+  segments: string[];
+  accessToken: string; // TODO add the lib itself
+}
