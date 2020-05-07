@@ -6,9 +6,10 @@ import { getDemoSourceConfig } from '../lib/utils/storage';
 import { Loader } from '../components/loader';
 import { useNavigation } from '@react-navigation/native';
 import * as URL from 'url';
+import { trimSlashes } from '../lib/utils';
 
 export const Home: FC = () => {
-  const [state] = useNetworkRequest(getDemoSourceConfig(), { autoStart: true });
+  const [state] = useNetworkRequest(() => getDemoSourceConfig(), { autoStart: true });
   useDeepLinking();
 
   return (

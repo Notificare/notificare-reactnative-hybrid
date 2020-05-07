@@ -7,12 +7,12 @@ import { useNetworkRequest } from '../lib/machines/network';
 import { NotificareAsset } from '../lib/notificare/models';
 import { Colors } from '../lib/theme';
 import { checkLocationPermission, requestLocationPermission } from '../lib/utils/permissions';
-import { setOnboardingStatus } from '../lib/utils/storage';
+import { getDemoSourceConfig, setOnboardingStatus } from '../lib/utils/storage';
 import { StackActions, useNavigation } from '@react-navigation/native';
 
 export const Onboarding: FC = () => {
   const notificare = useNotificare();
-  const [state] = useNetworkRequest(notificare.fetchAssets('ONBOARDING'), { autoStart: true });
+  const [state] = useNetworkRequest(() => notificare.fetchAssets('ONBOARDING'), { autoStart: true });
 
   const [page, setPage] = useState(0);
   const viewPagerRef = useRef<ViewPager>();
