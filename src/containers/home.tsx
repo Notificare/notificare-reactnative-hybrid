@@ -43,7 +43,7 @@ const useDeepLinking = () => {
       case '/signup':
       case '/analytics':
       case '/storage':
-        navigation.navigate(url.path);
+        navigation.navigate(trimSlashes(url.path));
         break;
       case '/scan':
         // TODO start scannable session
