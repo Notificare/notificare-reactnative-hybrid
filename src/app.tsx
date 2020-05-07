@@ -7,6 +7,8 @@ import { Onboarding } from './containers/onboarding';
 import { Home } from './containers/home';
 import { Colors } from './lib/theme';
 import { useNotificare } from './lib/notificare/hooks';
+import { SignIn } from './containers/sign-in';
+import { SignUp } from './containers/sign-up';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +34,9 @@ export const App: FC = () => {
         <Stack.Screen name="splash" component={Splash} options={{ title: 'Splash', headerShown: false }} />
         <Stack.Screen name="onboarding" component={Onboarding} options={{ title: 'Onboarding', headerShown: false }} />
         <Stack.Screen name="home" component={Home} options={{ title: 'Home', headerShown: false }} />
+
+        <Stack.Screen name="signin" component={SignIn} options={{ title: 'Sign in' }} />
+        <Stack.Screen name="signup" component={SignUp} options={{ title: 'Sign up' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
