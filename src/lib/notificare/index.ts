@@ -87,6 +87,18 @@ export class Notificare {
     return this.notificareModule.fetchAccountDetails();
   }
 
+  createAccount(name: string, email: string, password: string): Promise<void> {
+    return this.notificareModule.createAccount(email, name, password);
+  }
+
+  sendPassword(email: string): Promise<void> {
+    return this.notificareModule.sendPassword(email);
+  }
+
+  resetPassword(token: string, password: string): Promise<void> {
+    return this.notificareModule.resetPassword(token, password);
+  }
+
   // endregion
 
   // region Listeners
