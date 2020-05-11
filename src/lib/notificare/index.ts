@@ -103,6 +103,10 @@ export class Notificare {
     return this.notificareModule.resetPassword(token, password);
   }
 
+  generateAccessToken(): Promise<NotificareUser> {
+    return this.notificareModule.generateAccessToken();
+  }
+
   // endregion
 
   // region Listeners

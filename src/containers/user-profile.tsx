@@ -9,10 +9,11 @@ import md5 from 'md5';
 import HeaderImage from '../assets/images/account.png';
 import { ListItem } from '../components/ListItem';
 import { List } from '../components/List';
+import { showAlertDialog } from '../lib/utils/ui';
 
 export const UserProfile: FC = () => {
   const notificare = useNotificare();
-  const [profileState] = useNetworkRequest(() => loadUserProfile(notificare), { autoStart: true });
+  const [profileState, profileActions] = useNetworkRequest(() => loadUserProfile(notificare), { autoStart: true });
 
   if (profileState.status === 'idle' || profileState.status === 'pending') {
     return <Loader />;
@@ -20,6 +21,20 @@ export const UserProfile: FC = () => {
 
   if (profileState.status === 'successful') {
     const { user, userPreferences } = profileState.result;
+
+    const onNewPushEmail = async () => {
+      try {
+        await notificare.generateAccessToken();
+
+        showAlertDialog('New token generated successfully.', {
+          onPositiveButtonPress: () => profileActions.start(),
+        });
+      } catch (e) {
+        showAlertDialog('Could not generate a new token.', {
+          onPositiveButtonPress: () => profileActions.start(),
+        });
+      }
+    };
 
     return (
       <>
@@ -36,7 +51,7 @@ export const UserProfile: FC = () => {
 
           <ListItem primaryText="Change password" />
 
-          <ListItem primaryText="New Push Email" />
+          <ListItem primaryText="New Push Email" onPress={onNewPushEmail} />
 
           <ListItem primaryText="Sign Out" />
         </List>
