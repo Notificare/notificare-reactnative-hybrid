@@ -6043,6 +6043,11 @@ react-native-default-preference@^1.4.2:
   resolved "https://registry.yarnpkg.com/react-native-default-preference/-/react-native-default-preference-1.4.2.tgz#0c0b36c0dd2f01413e7fc32f98363e19b39d4166"
   integrity sha512-kNhBLv8s6kO2gJJFEKM7qew7oRvJnygjgG1CU2ZEY6SlG5qsRX8z1Ms7z1Oo/XB7fVfyXrAoZDGhIvy+uiByrg==
 
+react-native-device-info@^5.5.7:
+  version "5.5.7"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-5.5.7.tgz#aafe2581a702637a66fc04f333052980a4f9e8c5"
+  integrity sha512-0021blhx/N1+mWQPOW3QAMWhOjYdG0uC5n+P6sMXZD3pF9aiIeCKuw4JpBpfNXXpUmDmQ7qWgHZUZO7JBMRijw==
+
 react-native-gesture-handler@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.6.1.tgz#678e2dce250ed66e93af409759be22cd6375dd17"
