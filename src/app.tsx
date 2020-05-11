@@ -10,6 +10,7 @@ import { useNotificare } from './lib/notificare/hooks';
 import { SignIn } from './containers/sign-in';
 import { SignUp } from './containers/sign-up';
 import { ForgotPassword } from './containers/forgot-password';
+import { ResetPassword } from './containers/reset-password';
 
 const Stack = createStackNavigator();
 
@@ -39,6 +40,7 @@ export const App: FC = () => {
         <Stack.Screen name="signin" component={SignIn} options={{ title: 'Sign in' }} />
         <Stack.Screen name="signup" component={SignUp} options={{ title: 'Sign up' }} />
         <Stack.Screen name="forgotpassword" component={ForgotPassword} options={{ title: 'Forgotten password' }} />
+        <Stack.Screen name="resetpassword" component={ResetPassword} options={{ title: 'Reset password' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
