@@ -26,10 +26,10 @@ export const ListItem: FC<ListItemProps> = (props) => {
 };
 
 interface ListItemProps {
-  primaryText: string;
-  secondaryText?: string;
+  primaryText: string | null;
+  secondaryText?: string | null;
 
-  trailingText?: string;
+  trailingText?: string | null;
   trailingComponent?: Component;
 
   onPress?: () => void;
