@@ -107,6 +107,10 @@ export class Notificare {
     return this.notificareModule.generateAccessToken();
   }
 
+  logout(): Promise<void> {
+    return this.notificareModule.logout();
+  }
+
   // endregion
 
   // region Listeners

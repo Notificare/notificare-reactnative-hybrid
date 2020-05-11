@@ -10,8 +10,10 @@ import HeaderImage from '../assets/images/account.png';
 import { ListItem } from '../components/list-item';
 import { List } from '../components/list';
 import { showAlertDialog } from '../lib/utils/ui';
+import { useNavigation } from '@react-navigation/native';
 
 export const UserProfile: FC = () => {
+  const navigation = useNavigation();
   const notificare = useNotificare();
   const [profileState, profileActions] = useNetworkRequest(() => loadUserProfile(notificare), { autoStart: true });
 
@@ -36,6 +38,18 @@ export const UserProfile: FC = () => {
       }
     };
 
+    const onSignOut = async () => {
+      try {
+        await notificare.logout();
+
+        navigation.goBack();
+      } catch (e) {
+        showAlertDialog('Could not log you out.', {
+          onPositiveButtonPress: () => profileActions.start(),
+        });
+      }
+    };
+
     return (
       <>
         <List withDividers>
@@ -53,7 +67,7 @@ export const UserProfile: FC = () => {
 
           <ListItem primaryText="New Push Email" onPress={onNewPushEmail} />
 
-          <ListItem primaryText="Sign Out" style={{ primaryText: styles.signOut }} />
+          <ListItem primaryText="Sign Out" onPress={onSignOut} style={{ primaryText: styles.signOut }} />
         </List>
       </>
     );
