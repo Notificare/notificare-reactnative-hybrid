@@ -53,7 +53,7 @@ export const UserProfile: FC = () => {
 
           <ListItem primaryText="New Push Email" onPress={onNewPushEmail} />
 
-          <ListItem primaryText="Sign Out" />
+          <ListItem primaryText="Sign Out" style={{ primaryText: styles.signOut }} />
         </List>
       </>
     );
@@ -69,6 +69,9 @@ const styles = StyleSheet.create({
     height: '100%',
     maxHeight: 300,
     resizeMode: 'cover',
+  },
+  signOut: {
+    color: 'red',
   },
 });
 

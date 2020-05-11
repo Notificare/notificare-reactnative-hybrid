@@ -1,15 +1,15 @@
 import React, { Component, FC } from 'react';
-import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { StyleProp, StyleSheet, Text, TextStyle, TouchableHighlight, View } from 'react-native';
 import { Colors } from '../lib/theme';
 
 export const ListItem: FC<ListItemProps> = (props) => {
-  const { primaryText, secondaryText, trailingText, trailingComponent, onPress } = props;
+  const { primaryText, secondaryText, trailingText, trailingComponent, onPress, style } = props;
 
   return (
     <TouchableHighlight onPress={onPress}>
       <View style={styles.row}>
         <View style={styles.leading}>
-          <Text style={styles.primaryText}>{primaryText}</Text>
+          <Text style={[styles.primaryText, style?.primaryText]}>{primaryText}</Text>
 
           {secondaryText && <Text style={styles.secondaryText}>{secondaryText}</Text>}
         </View>
@@ -33,6 +33,10 @@ interface ListItemProps {
   trailingComponent?: Component;
 
   onPress?: () => void;
+
+  style?: {
+    primaryText?: StyleProp<TextStyle>;
+  };
 }
 
 const styles = StyleSheet.create({
