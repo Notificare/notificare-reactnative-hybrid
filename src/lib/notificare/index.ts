@@ -1,6 +1,6 @@
 import { DeviceEventEmitter, EventEmitter, NativeEventEmitter, NativeModules, Platform } from 'react-native';
 import { OnDeviceRegisteredCallback, OnReadyCallback } from './events';
-import { NotificareAsset, NotificareUser } from './models';
+import { NotificareAsset, NotificareUser, NotificareUserPreference } from './models';
 
 export class Notificare {
   private readonly notificareModule: NotificareModule;
@@ -85,6 +85,10 @@ export class Notificare {
 
   fetchAccountDetails(): Promise<NotificareUser> {
     return this.notificareModule.fetchAccountDetails();
+  }
+
+  fetchUserPreferences(): Promise<NotificareUserPreference[]> {
+    return this.notificareModule.fetchUserPreferences();
   }
 
   createAccount(name: string, email: string, password: string): Promise<void> {

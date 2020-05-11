@@ -54,5 +54,18 @@ export interface NotificareUser {
   userID: string;
   userName: string;
   segments: string[];
-  accessToken: string; // TODO add the lib itself
+  accessToken: string | null | undefined;
+}
+
+export interface NotificareUserPreference {
+  preferenceId: string;
+  preferenceLabel: string;
+  preferenceType: string;
+  preferenceOptions: NotificareUserPreferenceOption[];
+}
+
+export interface NotificareUserPreferenceOption {
+  segmentId: string;
+  segmentLabel: string;
+  selected: boolean;
 }
