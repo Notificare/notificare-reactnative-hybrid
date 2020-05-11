@@ -7,8 +7,8 @@ import { Loader } from '../components/loader';
 import { Image, StyleSheet } from 'react-native';
 import md5 from 'md5';
 import HeaderImage from '../assets/images/account.png';
-import { ListItem } from '../components/ListItem';
-import { List } from '../components/List';
+import { ListItem } from '../components/list-item';
+import { List } from '../components/list';
 import { showAlertDialog } from '../lib/utils/ui';
 
 export const UserProfile: FC = () => {
