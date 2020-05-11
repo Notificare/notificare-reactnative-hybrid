@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { ComponentType, FC } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { Splash } from './containers/splash';
@@ -8,6 +8,9 @@ import { Home } from './containers/home';
 import { Colors } from './lib/theme';
 import { useNotificare } from './lib/notificare/hooks';
 import { SignIn } from './containers/sign-in';
+import { useNetworkRequest } from './lib/machines/network';
+import { Loader } from './components/loader';
+import { UserProfile } from './containers/user-profile';
 import { SignUp } from './containers/sign-up';
 import { ForgotPassword } from './containers/forgot-password';
 import { ResetPassword } from './containers/reset-password';
@@ -41,7 +44,51 @@ export const App: FC = () => {
         <Stack.Screen name="signup" component={SignUp} options={{ title: 'Sign up' }} />
         <Stack.Screen name="forgotpassword" component={ForgotPassword} options={{ title: 'Forgotten password' }} />
         <Stack.Screen name="resetpassword" component={ResetPassword} options={{ title: 'Reset password' }} />
+
+        <Stack.Screen name="profile" options={{ title: 'Profile' }}>
+          {(props) => <ProtectedComponent component={UserProfile} {...props} />}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
+
+const ProtectedComponent: FC<ProtectedComponentProps> = (props) => {
+  const notificare = useNotificare();
+  const [state] = useNetworkRequest(() => notificare.isLoggedIn(), { autoStart: true });
+
+  const { component: Component, ...others } = props;
+  const { navigation } = props;
+
+  if (state.status === 'idle' || state.status === 'pending') {
+    navigation.setOptions({
+      headerShown: false,
+    });
+
+    return <Loader />;
+  }
+
+  if (state.status === 'successful') {
+    if (state.result) {
+      navigation.setOptions({
+        headerShown: true,
+      });
+
+      return <Component {...others} />;
+    } else {
+      navigation.setOptions({
+        headerShown: true,
+        title: 'Sign in',
+      });
+
+      return <SignIn />;
+    }
+  }
+
+  return null;
+};
+
+interface ProtectedComponentProps {
+  component: ComponentType;
+  navigation: any;
+}
