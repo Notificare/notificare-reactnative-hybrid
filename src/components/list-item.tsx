@@ -1,4 +1,4 @@
-import React, { Component, FC } from 'react';
+import React, { FC, ReactElement } from 'react';
 import { StyleProp, StyleSheet, Text, TextStyle, TouchableHighlight, View } from 'react-native';
 import { Colors } from '../lib/theme';
 
@@ -30,7 +30,7 @@ interface ListItemProps {
   secondaryText?: string | null;
 
   trailingText?: string | null;
-  trailingComponent?: Component;
+  trailingComponent?: ReactElement;
 
   onPress?: () => void;
 
