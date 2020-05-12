@@ -4,13 +4,14 @@ import { Notificare } from '../lib/notificare';
 import { useNetworkRequest } from '../lib/machines/network';
 import { useNotificare } from '../lib/notificare/hooks';
 import { Loader } from '../components/loader';
-import { Image, StyleSheet } from 'react-native';
+import { Image, ScrollView, StyleSheet, Switch } from 'react-native';
 import md5 from 'md5';
 import HeaderImage from '../assets/images/account.png';
 import { ListItem } from '../components/list-item';
 import { List } from '../components/list';
 import { showAlertDialog } from '../lib/utils/ui';
 import { useNavigation } from '@react-navigation/native';
+import { ListHeader } from '../components/list-header';
 
 export const UserProfile: FC = () => {
   const navigation = useNavigation();
@@ -50,25 +51,74 @@ export const UserProfile: FC = () => {
       }
     };
 
+    const buildPreferenceItem = (preference: NotificareUserPreference) => {
+      const index = userPreferences.indexOf(preference);
+
+      switch (preference.preferenceType) {
+        case 'choice': {
+          const selectedOption = preference.preferenceOptions.find((opt) => opt.selected);
+          return (
+            <ListItem
+              key={`preference-${index}`}
+              primaryText={preference.preferenceLabel}
+              trailingText={selectedOption?.segmentLabel}
+            />
+          );
+        }
+        case 'single': {
+          const selectedOption = preference.preferenceOptions.find((opt) => opt.selected);
+          return (
+            <ListItem
+              key={`preference-${index}`}
+              primaryText={preference.preferenceLabel}
+              trailingComponent={<Switch value={selectedOption != null} />}
+            />
+          );
+        }
+        case 'select': {
+          const selectedOptions = preference.preferenceOptions.filter((opt) => opt.selected);
+          return (
+            <ListItem
+              key={`preference-${index}`}
+              primaryText={preference.preferenceLabel}
+              trailingText={`${selectedOptions.length}`}
+            />
+          );
+        }
+      }
+
+      return null;
+    };
+
     return (
       <>
-        <List withDividers>
-          <Image source={{ uri: createGravatarUrl(user.userID) }} defaultSource={HeaderImage} style={styles.avatar} />
+        <ScrollView>
+          <List withDividers>
+            <Image source={{ uri: createGravatarUrl(user.userID) }} defaultSource={HeaderImage} style={styles.avatar} />
 
-          <ListItem primaryText="Name" trailingText={user.userName} />
+            <ListItem primaryText="Name" trailingText={user.userName} />
 
-          <ListItem primaryText="Email" trailingText={user.userID} />
+            <ListItem primaryText="Email" trailingText={user.userID} />
 
-          <ListItem primaryText="Push Email" trailingText={user.accessToken} />
+            <ListItem primaryText="Push Email" trailingText={user.accessToken} />
 
-          <ListItem primaryText="Open Member Card" />
+            <ListItem primaryText="Open Member Card" />
 
-          <ListItem primaryText="Change password" />
+            <ListItem primaryText="Change password" />
 
-          <ListItem primaryText="New Push Email" onPress={onNewPushEmail} />
+            <ListItem primaryText="New Push Email" onPress={onNewPushEmail} />
 
-          <ListItem primaryText="Sign Out" onPress={onSignOut} style={{ primaryText: styles.signOut }} />
-        </List>
+            <ListItem primaryText="Sign Out" onPress={onSignOut} style={{ primaryText: styles.signOut }} />
+
+            <ListHeader text="User preferences" />
+
+            {!userPreferences.length && <ListItem primaryText="You have no preferences yet." />}
+
+            {userPreferences.length && (
+              <List withDividers>{userPreferences.map((value) => buildPreferenceItem(value))}</List>
+            )}
+          </List>
+        </ScrollView>
       </>
     );
   }
@@ -80,8 +130,7 @@ export const UserProfile: FC = () => {
 const styles = StyleSheet.create({
   avatar: {
     width: '100%',
-    height: '100%',
-    maxHeight: 300,
+    height: 300,
     resizeMode: 'cover',
   },
   signOut: {
