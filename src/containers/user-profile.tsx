@@ -1,5 +1,10 @@
-import React, { FC } from 'react';
-import { NotificareUser, NotificareUserPreference } from '../lib/notificare/models';
+import React, { FC, useState } from 'react';
+import {
+  NotificareUser,
+  NotificareUserPreference,
+  NotificareUserPreferenceOption,
+  NotificareUserSegment,
+} from '../lib/notificare/models';
 import { Notificare } from '../lib/notificare';
 import { useNetworkRequest } from '../lib/machines/network';
 import { useNotificare } from '../lib/notificare/hooks';
@@ -16,7 +21,20 @@ import { ListHeader } from '../components/list-header';
 export const UserProfile: FC = () => {
   const navigation = useNavigation();
   const notificare = useNotificare();
-  const [profileState, profileActions] = useNetworkRequest(() => loadUserProfile(notificare), { autoStart: true });
+  const [preferencesSwitches, setPreferencesSwitches] = useState<Record<string, boolean>>({});
+  const [profileState, profileActions] = useNetworkRequest(() => loadUserProfile(notificare), {
+    autoStart: true,
+    onFinished: async (state) => {
+      if (state.status === 'successful') {
+        let switches: Record<string, boolean> = {};
+        state.result.userPreferences
+          .filter((p) => p.preferenceType === 'single')
+          .forEach((p) => (switches[p.preferenceId] = p.preferenceOptions[0].selected));
+
+        setPreferencesSwitches(switches);
+      }
+    },
+  });
 
   if (profileState.status === 'idle' || profileState.status === 'pending') {
     return <Loader />;
@@ -51,6 +69,33 @@ export const UserProfile: FC = () => {
       }
     };
 
+    const onUpdateUserSinglePreference = async (
+      preference: NotificareUserPreference,
+      option: NotificareUserPreferenceOption,
+      selected: boolean,
+    ) => {
+      try {
+        const segment: NotificareUserSegment = {
+          segmentId: option.segmentId,
+          segmentLabel: option.segmentLabel,
+        };
+
+        if (selected) {
+          await notificare.addSegmentToUserPreference(segment, preference);
+        } else {
+          await notificare.removeSegmentFromUserPreference(segment, preference);
+        }
+      } catch (e) {
+        console.log(`Failed to update user preference: ${e}`);
+      }
+
+      try {
+        await profileActions.start();
+      } catch (e) {
+        console.log(`Failed to reload the user profile: ${e}`);
+      }
+    };
+
     const buildPreferenceItem = (preference: NotificareUserPreference) => {
       const index = userPreferences.indexOf(preference);
 
@@ -66,12 +111,20 @@ export const UserProfile: FC = () => {
           );
         }
         case 'single': {
-          const selectedOption = preference.preferenceOptions.find((opt) => opt.selected);
+          const option = preference.preferenceOptions[0];
           return (
             <ListItem
               key={`preference-${index}`}
               primaryText={preference.preferenceLabel}
-              trailingComponent={<Switch value={selectedOption != null} />}
+              trailingComponent={
+                <Switch
+                  value={preferencesSwitches[preference.preferenceId]}
+                  onValueChange={async (selected) => {
+                    setPreferencesSwitches((prevState) => ({ ...prevState, [preference.preferenceId]: selected }));
+                    await onUpdateUserSinglePreference(preference, option, selected);
+                  }}
+                />
+              }
             />
           );
         }
