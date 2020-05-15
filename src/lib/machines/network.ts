@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
 
-export type MachineState<T> =
-  | { status: 'idle' }
-  | { status: 'pending' }
-  | { status: 'successful'; result: T }
-  | { status: 'failed'; reason: Error };
+export type MachineState<T> = { status: 'idle' } | { status: 'pending' } | FinishedMachineState<T>;
+
+export type FinishedMachineState<T> = { status: 'successful'; result: T } | { status: 'failed'; reason: Error };
 
 export interface MachineActions<T> {
   start: () => Promise<T | undefined>;
 }
 
-export interface MachineOptions {
+export interface MachineOptions<T> {
   autoStart?: boolean;
+  onFinished?: (state: FinishedMachineState<T>) => Promise<void>;
 }
 
 export type RequestBuilder<T> = () => Promise<T>;
 
 export function useNetworkRequest<T>(
   requestBuilder: RequestBuilder<T>,
-  options?: MachineOptions,
+  options?: MachineOptions<T>,
 ): [MachineState<T>, MachineActions<T>] {
   const [state, setState] = useState<MachineState<T>>({ status: 'idle' });
 
@@ -36,6 +35,11 @@ export function useNetworkRequest<T>(
 
         // Fire the request.
         const result = await requestBuilder();
+
+        if (options?.onFinished) {
+          console.debug('Running the onFinished function.');
+          await options.onFinished({ status: 'successful', result });
+        }
 
         // Transition to successful.
         setState({ status: 'successful', result });
