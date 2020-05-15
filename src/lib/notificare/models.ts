@@ -69,3 +69,8 @@ export interface NotificareUserPreferenceOption {
   segmentLabel: string;
   selected: boolean;
 }
+
+export interface NotificareUserSegment {
+  segmentId: string;
+  segmentLabel: string;
+}

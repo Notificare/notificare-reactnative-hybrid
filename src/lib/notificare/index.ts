@@ -1,6 +1,6 @@
 import { DeviceEventEmitter, EventEmitter, NativeEventEmitter, NativeModules, Platform } from 'react-native';
 import { OnDeviceRegisteredCallback, OnReadyCallback } from './events';
-import { NotificareAsset, NotificareUser, NotificareUserPreference } from './models';
+import { NotificareAsset, NotificareUser, NotificareUserPreference, NotificareUserSegment } from './models';
 
 export class Notificare {
   private readonly notificareModule: NotificareModule;
@@ -109,6 +109,14 @@ export class Notificare {
 
   logout(): Promise<void> {
     return this.notificareModule.logout();
+  }
+
+  addSegmentToUserPreference(segment: NotificareUserSegment, preference: NotificareUserPreference): Promise<void> {
+    return this.notificareModule.addSegmentToUserPreference(segment, preference);
+  }
+
+  removeSegmentFromUserPreference(segment: NotificareUserSegment, preference: NotificareUserPreference): Promise<void> {
+    return this.notificareModule.removeSegmentFromUserPreference(segment, preference);
   }
 
   // endregion
