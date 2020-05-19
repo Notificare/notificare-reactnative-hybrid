@@ -3,7 +3,13 @@ import { Image, StyleSheet, View } from 'react-native';
 import Logo from '../assets/images/logo.png';
 import { useNotificare } from '../lib/notificare/hooks';
 import { StackActions, useNavigation } from '@react-navigation/native';
-import { getOnboardingStatus, setCustomScript, setDemoSourceConfig, setMemberCardTemplate } from '../lib/utils/storage';
+import {
+  getDemoSourceConfig,
+  getOnboardingStatus,
+  setCustomScript,
+  setDemoSourceConfig,
+  setMemberCardTemplate,
+} from '../lib/utils/storage';
 import { fetchDemoSourceConfig, fetchString } from '../lib/utils/assets-helper';
 import { Notificare } from '../lib/notificare';
 
@@ -85,8 +91,15 @@ async function fetchPassbookTemplate(notificare: Notificare) {
   console.log('Fetching passbook template.');
 
   try {
-    const template = await notificare.doCloudHostOperation('GET', '/passbook');
-    await setMemberCardTemplate(template);
+    const demoSourceConfig = await getDemoSourceConfig();
+    const result = await notificare.doCloudHostOperation('GET', '/passbook');
+
+    const templates = result.passbooks as any[];
+    for (let template of templates) {
+      if (template._id === demoSourceConfig!.memberCard.templateId) {
+        await setMemberCardTemplate(template);
+      }
+    }
   } catch (e) {
     console.log(`Failed to fetch the passbook template: ${e}`);
   }
