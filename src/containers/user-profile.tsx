@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
   NotificareUser,
   NotificareUserPreference,
@@ -15,11 +15,12 @@ import HeaderImage from '../assets/images/account.png';
 import { ListItem } from '../components/list-item';
 import { List } from '../components/list';
 import { showAlertDialog } from '../lib/utils/ui';
-import { useNavigation } from '@react-navigation/native';
 import { ListHeader } from '../components/list-header';
+import { Routes, UserProfileProps } from '../routes';
 
-export const UserProfile: FC = () => {
-  const navigation = useNavigation();
+export const UserProfile: FC<UserProfileProps> = (props) => {
+  const { navigation } = props;
+
   const notificare = useNotificare();
   const [preferencesSwitches, setPreferencesSwitches] = useState<Record<string, boolean>>({});
   const [profileState, profileActions] = useNetworkRequest(() => loadUserProfile(notificare), {
@@ -35,6 +36,11 @@ export const UserProfile: FC = () => {
       }
     },
   });
+
+  // Reload profile when coming back from the preferences picker.
+  useEffect(() => {
+    return navigation.addListener('focus', () => profileActions.start());
+  }, [navigation]);
 
   if (profileState.status === 'idle' || profileState.status === 'pending') {
     return <Loader />;
@@ -69,6 +75,14 @@ export const UserProfile: FC = () => {
       }
     };
 
+    const reloadProfile = async () => {
+      try {
+        await profileActions.start();
+      } catch (e) {
+        console.log(`Failed to reload the user profile: ${e}`);
+      }
+    };
+
     const onUpdateUserSinglePreference = async (
       preference: NotificareUserPreference,
       option: NotificareUserPreferenceOption,
@@ -87,12 +101,8 @@ export const UserProfile: FC = () => {
         }
       } catch (e) {
         console.log(`Failed to update user preference: ${e}`);
-      }
-
-      try {
-        await profileActions.start();
-      } catch (e) {
-        console.log(`Failed to reload the user profile: ${e}`);
+      } finally {
+        await reloadProfile();
       }
     };
 
@@ -107,6 +117,7 @@ export const UserProfile: FC = () => {
               key={`preference-${index}`}
               primaryText={preference.preferenceLabel}
               trailingText={selectedOption?.segmentLabel}
+              onPress={() => navigation.push(Routes.profilePreferencePicker, { preference })}
             />
           );
         }
@@ -135,6 +146,7 @@ export const UserProfile: FC = () => {
               key={`preference-${index}`}
               primaryText={preference.preferenceLabel}
               trailingText={`${selectedOptions.length}`}
+              onPress={() => navigation.push(Routes.profilePreferencePicker, { preference })}
             />
           );
         }

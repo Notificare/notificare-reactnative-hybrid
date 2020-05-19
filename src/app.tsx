@@ -1,4 +1,4 @@
-import React, { ComponentType, FC } from 'react';
+import React, { FC } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { Splash } from './containers/splash';
@@ -8,14 +8,16 @@ import { Home } from './containers/home';
 import { Colors } from './lib/theme';
 import { useNotificare } from './lib/notificare/hooks';
 import { SignIn } from './containers/sign-in';
-import { useNetworkRequest } from './lib/machines/network';
-import { Loader } from './components/loader';
 import { UserProfile } from './containers/user-profile';
 import { SignUp } from './containers/sign-up';
 import { ForgotPassword } from './containers/forgot-password';
 import { ResetPassword } from './containers/reset-password';
+import { UserProfilePreferencePicker } from './containers/user-profile-preference-picker';
+import { ProtectedComponent } from './components/protected-component';
+import { RootStackParamList, Routes } from './routes';
+import { ThemeProvider } from 'react-native-elements';
 
-const Stack = createStackNavigator();
+const RootStack = createStackNavigator<RootStackParamList>();
 
 export const App: FC = () => {
   useNotificare({
@@ -34,61 +36,41 @@ export const App: FC = () => {
   };
 
   return (
-    <NavigationContainer theme={theme}>
-      <Stack.Navigator initialRouteName="splash">
-        <Stack.Screen name="splash" component={Splash} options={{ title: 'Splash', headerShown: false }} />
-        <Stack.Screen name="onboarding" component={Onboarding} options={{ title: 'Onboarding', headerShown: false }} />
-        <Stack.Screen name="home" component={Home} options={{ title: 'Home', headerShown: false }} />
+    <ThemeProvider>
+      <NavigationContainer theme={theme}>
+        <RootStack.Navigator initialRouteName={Routes.splash}>
+          <RootStack.Screen name={Routes.splash} component={Splash} options={{ title: 'Splash', headerShown: false }} />
+          <RootStack.Screen
+            name={Routes.onboarding}
+            component={Onboarding}
+            options={{ title: 'Onboarding', headerShown: false }}
+          />
+          <RootStack.Screen name={Routes.home} component={Home} options={{ title: 'Home', headerShown: false }} />
 
-        <Stack.Screen name="signin" component={SignIn} options={{ title: 'Sign in' }} />
-        <Stack.Screen name="signup" component={SignUp} options={{ title: 'Sign up' }} />
-        <Stack.Screen name="forgotpassword" component={ForgotPassword} options={{ title: 'Forgotten password' }} />
-        <Stack.Screen name="resetpassword" component={ResetPassword} options={{ title: 'Reset password' }} />
+          <RootStack.Screen name={Routes.signIn} component={SignIn} options={{ title: 'Sign in' }} />
+          <RootStack.Screen name={Routes.signUp} component={SignUp} options={{ title: 'Sign up' }} />
+          <RootStack.Screen
+            name={Routes.forgotPassword}
+            component={ForgotPassword}
+            options={{ title: 'Forgotten password' }}
+          />
+          <RootStack.Screen
+            name={Routes.resetPassword}
+            component={ResetPassword}
+            options={{ title: 'Reset password' }}
+          />
 
-        <Stack.Screen name="profile" options={{ title: 'Profile' }}>
-          {(props) => <ProtectedComponent component={UserProfile} {...props} />}
-        </Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
+          <RootStack.Screen name={Routes.profile} options={{ title: 'Profile' }}>
+            {(props) => <ProtectedComponent component={UserProfile} {...props} />}
+          </RootStack.Screen>
+
+          <RootStack.Screen
+            name={Routes.profilePreferencePicker}
+            component={UserProfilePreferencePicker}
+            options={({ route }) => ({ title: route.params.preference.preferenceLabel })}
+          />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
   );
 };
-
-const ProtectedComponent: FC<ProtectedComponentProps> = (props) => {
-  const notificare = useNotificare();
-  const [state] = useNetworkRequest(() => notificare.isLoggedIn(), { autoStart: true });
-
-  const { component: Component, ...others } = props;
-  const { navigation } = props;
-
-  if (state.status === 'idle' || state.status === 'pending') {
-    navigation.setOptions({
-      headerShown: false,
-    });
-
-    return <Loader />;
-  }
-
-  if (state.status === 'successful') {
-    if (state.result) {
-      navigation.setOptions({
-        headerShown: true,
-      });
-
-      return <Component {...others} />;
-    } else {
-      navigation.setOptions({
-        headerShown: true,
-        title: 'Sign in',
-      });
-
-      return <SignIn />;
-    }
-  }
-
-  return null;
-};
-
-interface ProtectedComponentProps {
-  component: ComponentType;
-  navigation: any;
-}
