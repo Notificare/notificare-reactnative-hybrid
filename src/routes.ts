@@ -11,6 +11,7 @@ export enum Routes {
   resetPassword = 'resetPassword',
   profile = 'profile',
   profilePreferencePicker = 'profile-preference-picker',
+  memberCard = 'member-card',
 }
 
 export type RootStackParamList = {
@@ -23,6 +24,7 @@ export type RootStackParamList = {
   [Routes.resetPassword]: undefined;
   [Routes.profile]: undefined;
   [Routes.profilePreferencePicker]: ProfilePreferencePickerParams;
+  [Routes.memberCard]: undefined;
 };
 
 // region Screen props
@@ -30,6 +32,8 @@ export type RootStackParamList = {
 export type UserProfileProps = StackScreenProps<RootStackParamList, Routes.profile>;
 
 export type UserProfilePreferencePickerProps = StackScreenProps<RootStackParamList, Routes.profilePreferencePicker>;
+
+export type MemberCardProps = StackScreenProps<RootStackParamList, Routes.memberCard>;
 
 // endregion
 

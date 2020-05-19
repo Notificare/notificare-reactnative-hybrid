@@ -16,6 +16,7 @@ import { UserProfilePreferencePicker } from './containers/user-profile-preferenc
 import { ProtectedComponent } from './components/protected-component';
 import { RootStackParamList, Routes } from './routes';
 import { ThemeProvider } from 'react-native-elements';
+import { MemberCard } from './containers/member-card';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
@@ -69,6 +70,10 @@ export const App: FC = () => {
             component={UserProfilePreferencePicker}
             options={({ route }) => ({ title: route.params.preference.preferenceLabel })}
           />
+
+          <RootStack.Screen name={Routes.memberCard} options={{ title: 'Member Card' }}>
+            {(props) => <ProtectedComponent component={MemberCard} {...props} />}
+          </RootStack.Screen>
         </RootStack.Navigator>
       </NavigationContainer>
     </ThemeProvider>

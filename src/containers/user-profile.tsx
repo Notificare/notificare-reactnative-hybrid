@@ -10,13 +10,13 @@ import { useNetworkRequest } from '../lib/machines/network';
 import { useNotificare } from '../lib/notificare/hooks';
 import { Loader } from '../components/loader';
 import { Image, ScrollView, StyleSheet, Switch } from 'react-native';
-import md5 from 'md5';
 import HeaderImage from '../assets/images/account.png';
 import { ListItem } from '../components/list-item';
 import { List } from '../components/list';
 import { showAlertDialog } from '../lib/utils/ui';
 import { ListHeader } from '../components/list-header';
 import { Routes, UserProfileProps } from '../routes';
+import { createGravatarUrl } from '../lib/utils';
 
 export const UserProfile: FC<UserProfileProps> = (props) => {
   const { navigation } = props;
@@ -167,7 +167,7 @@ export const UserProfile: FC<UserProfileProps> = (props) => {
 
             <ListItem primaryText="Push Email" trailingText={user.accessToken} />
 
-            <ListItem primaryText="Open Member Card" />
+            <ListItem primaryText="Open Member Card" onPress={() => navigation.push(Routes.memberCard)} />
 
             <ListItem primaryText="Change password" />
 
@@ -218,10 +218,4 @@ async function loadUserProfile(notificare: Notificare): Promise<UserProfile> {
 interface UserProfile {
   user: NotificareUser;
   userPreferences: NotificareUserPreference[];
-}
-
-function createGravatarUrl(email: string): string {
-  email = email.toLowerCase().trim();
-  const hash = md5(email);
-  return `https://gravatar.com/avatar/${hash}?s=512`;
 }
