@@ -4,6 +4,7 @@ const KEY_ONBOARDING_STATUS = 'onboarding_status';
 const KEY_DEMO_SOURCE_CONFIG = 'demo_source_config';
 const KEY_CUSTOM_SCRIPT = 'custom_script';
 const KEY_MEMBER_CARD_TEMPLATE = 'member_card_template';
+const KEY_MEMBER_CARD_SERIAL = 'member_card_serial';
 
 export async function getOnboardingStatus(): Promise<boolean> {
   const status = await DefaultPreference.get(KEY_ONBOARDING_STATUS);
@@ -47,6 +48,14 @@ export async function getMemberCardTemplate(): Promise<Record<string, any> | und
 
 export async function setMemberCardTemplate(template: Record<string, any>): Promise<void> {
   await DefaultPreference.set(KEY_MEMBER_CARD_TEMPLATE, JSON.stringify(template));
+}
+
+export async function getMemberCardSerial(): Promise<string | undefined> {
+  return await DefaultPreference.get(KEY_MEMBER_CARD_SERIAL);
+}
+
+export async function setMemberCardSerial(serial: string): Promise<void> {
+  await DefaultPreference.set(KEY_MEMBER_CARD_SERIAL, serial);
 }
 
 // region Types

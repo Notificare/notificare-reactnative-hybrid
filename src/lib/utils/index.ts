@@ -1,3 +1,5 @@
+import md5 from 'md5';
+
 export function trimSlashes(str: string): string {
   let result = str;
 
@@ -10,4 +12,10 @@ export function trimSlashes(str: string): string {
   }
 
   return result;
+}
+
+export function createGravatarUrl(email: string): string {
+  email = email.toLowerCase().trim();
+  const hash = md5(email);
+  return `https://gravatar.com/avatar/${hash}?s=512`;
 }

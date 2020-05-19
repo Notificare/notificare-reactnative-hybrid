@@ -9,6 +9,7 @@ import { showAlertDialog } from '../lib/utils/ui';
 import { useNetworkRequest } from '../lib/machines/network';
 import { Notificare } from '../lib/notificare';
 import { Loader } from '../components/loader';
+import { createMemberCard } from '../lib/utils/loyalty';
 
 export const SignIn: FC = () => {
   const navigation = useNavigation();
@@ -119,5 +120,5 @@ async function performSignIn(notificare: Notificare, email: string, password: st
   const user = await notificare.fetchAccountDetails();
 
   // Create and update the current member card
-  // todo await createMemberCard(user.userName, user.userID);
+  await createMemberCard(user.userName, user.userID);
 }
