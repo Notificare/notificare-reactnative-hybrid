@@ -11,7 +11,7 @@ export enum Routes {
   resetPassword = 'resetPassword',
   profile = 'profile',
   profilePreferencePicker = 'profile-preference-picker',
-  memberCard = 'member-card',
+  memberCard = 'membercard',
   changePassword = 'change-password',
 }
 
