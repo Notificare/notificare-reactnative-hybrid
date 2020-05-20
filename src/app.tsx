@@ -17,6 +17,7 @@ import { ProtectedComponent } from './components/protected-component';
 import { RootStackParamList, Routes } from './routes';
 import { ThemeProvider } from 'react-native-elements';
 import { MemberCard } from './containers/member-card';
+import { ChangePassword } from './containers/change-password';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
@@ -74,6 +75,12 @@ export const App: FC = () => {
           <RootStack.Screen name={Routes.memberCard} options={{ title: 'Member Card' }}>
             {(props) => <ProtectedComponent component={MemberCard} {...props} />}
           </RootStack.Screen>
+
+          <RootStack.Screen
+            name={Routes.changePassword}
+            component={ChangePassword}
+            options={{ title: 'Change password' }}
+          />
         </RootStack.Navigator>
       </NavigationContainer>
     </ThemeProvider>

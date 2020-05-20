@@ -119,6 +119,10 @@ export class Notificare {
     return this.notificareModule.removeSegmentFromUserPreference(segment, preference);
   }
 
+  changePassword(password: string): Promise<void> {
+    return this.notificareModule.changePassword(password);
+  }
+
   // endregion
 
   // region Listeners

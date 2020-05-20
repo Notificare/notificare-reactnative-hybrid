@@ -169,7 +169,7 @@ export const UserProfile: FC<UserProfileProps> = (props) => {
 
             <ListItem primaryText="Open Member Card" onPress={() => navigation.push(Routes.memberCard)} />
 
-            <ListItem primaryText="Change password" />
+            <ListItem primaryText="Change password" onPress={() => navigation.push(Routes.changePassword)} />
 
             <ListItem primaryText="New Push Email" onPress={onNewPushEmail} />
 
