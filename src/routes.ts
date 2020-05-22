@@ -14,6 +14,7 @@ export enum Routes {
   memberCard = 'membercard',
   changePassword = 'change-password',
   accountValidation = 'account-validation',
+  analytics = 'analytics',
 }
 
 export type RootStackParamList = {
@@ -29,6 +30,7 @@ export type RootStackParamList = {
   [Routes.memberCard]: undefined;
   [Routes.changePassword]: undefined;
   [Routes.accountValidation]: AccountValidationParams;
+  [Routes.analytics]: undefined;
 };
 
 // region Screen props
@@ -46,6 +48,8 @@ export type ChangePasswordProps = StackScreenProps<RootStackParamList, Routes.ch
 export type AccountValidationProps = StackScreenProps<RootStackParamList, Routes.accountValidation>;
 
 export type ResetPasswordProps = StackScreenProps<RootStackParamList, Routes.resetPassword>;
+
+export type AnalyticsProps = StackScreenProps<RootStackParamList, Routes.analytics>;
 
 // endregion
 

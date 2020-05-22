@@ -19,6 +19,7 @@ import { ThemeProvider } from 'react-native-elements';
 import { MemberCard } from './containers/member-card';
 import { ChangePassword } from './containers/change-password';
 import { AccountValidation } from './containers/account-validation';
+import { Analytics } from './containers/analytics';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
@@ -93,6 +94,8 @@ export const App: FC = () => {
             component={AccountValidation}
             options={{ title: 'Account' }}
           />
+
+          <RootStack.Screen name={Routes.analytics} component={Analytics} options={{ title: 'Analytics' }} />
         </RootStack.Navigator>
       </NavigationContainer>
     </ThemeProvider>

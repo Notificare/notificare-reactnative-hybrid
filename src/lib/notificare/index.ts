@@ -132,6 +132,10 @@ export class Notificare {
     return this.notificareModule.validateAccount(token);
   }
 
+  logCustomEvent(event: string, data?: object): Promise<void> {
+    return this.notificareModule.logCustomEvent(event, data ?? {});
+  }
+
   // endregion
 
   // region Listeners
