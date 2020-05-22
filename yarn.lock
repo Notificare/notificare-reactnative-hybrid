@@ -1365,6 +1365,11 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
+"@types/react-native-mail@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-native-mail/-/react-native-mail-3.0.0.tgz#e72ca8342fed6a18aa0305d32135c7f69c692801"
+  integrity sha512-3LE06JWUvjc/49oP7/JXf57G3yrbLPaXU4VdVDTiIqpw5LkiNpPo2lecaYeOTNbolIHWfq/4BzFVwoU68V1m2A==
+
 "@types/react-native-vector-icons@^6.4.4":
   version "6.4.5"
   resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.5.tgz#74cbfc564bd8435e43ad6728572a0e5b49c335d1"
@@ -6259,6 +6264,11 @@ react-native-iphone-x-helper@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"
   integrity sha512-/VbpIEp8tSNNHIvstuA3Swx610whci1Zpc9mqNkqn14DkMbw+ORviln2u0XyHG1kPvvwTNGZY6QpeFwxYaSdbQ==
+
+react-native-mail@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-mail/-/react-native-mail-4.1.0.tgz#2ebe2df2211a84862a3aea77316736189e23435b"
+  integrity sha512-3IHQmUQJwFFV7HwDONeIEahhaEvK9u23liqIUQajPy7frk/AoIGhkdKf4FVSTeq+VlUx97qls4uNizP7hBXIIw==
 
 react-native-permissions@^2.1.4:
   version "2.1.4"

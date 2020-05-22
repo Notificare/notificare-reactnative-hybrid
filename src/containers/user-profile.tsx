@@ -9,7 +9,7 @@ import { Notificare } from '../lib/notificare';
 import { useNetworkRequest } from '../lib/machines/network';
 import { useNotificare } from '../lib/notificare/hooks';
 import { Loader } from '../components/loader';
-import { Image, ScrollView, StyleSheet, Switch } from 'react-native';
+import { Image, Platform, ScrollView, StyleSheet, Switch } from 'react-native';
 import HeaderImage from '../assets/images/account.png';
 import { ListItem } from '../components/list-item';
 import { List } from '../components/list';
@@ -17,6 +17,8 @@ import { showAlertDialog } from '../lib/utils/ui';
 import { ListHeader } from '../components/list-header';
 import { Routes, UserProfileProps } from '../routes';
 import { createGravatarUrl } from '../lib/utils';
+import Mailer from 'react-native-mail';
+import { getApplicationName } from 'react-native-device-info';
 
 export const UserProfile: FC<UserProfileProps> = (props) => {
   const { navigation } = props;
@@ -48,6 +50,22 @@ export const UserProfile: FC<UserProfileProps> = (props) => {
 
   if (profileState.status === 'successful') {
     const { user, userPreferences } = profileState.result;
+
+    const onSendEmail = (accessToken: string) => {
+      Mailer.mail(
+        {
+          subject: `${Platform.OS} ${getApplicationName()}`,
+          recipients: [`${accessToken}@pushmail.notifica.re`],
+          body: '',
+          isHTML: false,
+        },
+        (error, _) => {
+          if (error) {
+            console.log(`Could not open the email client: ${error}`);
+          }
+        },
+      );
+    };
 
     const onNewPushEmail = async () => {
       try {
@@ -165,7 +183,11 @@ export const UserProfile: FC<UserProfileProps> = (props) => {
 
             <ListItem primaryText="Email" trailingText={user.userID} />
 
-            <ListItem primaryText="Push Email" trailingText={user.accessToken} />
+            <ListItem
+              primaryText="Push Email"
+              trailingText={user.accessToken}
+              onPress={user.accessToken ? () => onSendEmail(user.accessToken!) : undefined}
+            />
 
             <ListItem primaryText="Open Member Card" onPress={() => navigation.push(Routes.memberCard)} />
 
