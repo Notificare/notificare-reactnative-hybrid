@@ -4,19 +4,18 @@ import { Image, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import HeaderImage from '../assets/images/key.png';
 import { Button } from '../components/button';
 import { useNotificare } from '../lib/notificare/hooks';
-import { useNavigation } from '@react-navigation/native';
 import { useNetworkRequest } from '../lib/machines/network';
 import { Colors } from '../lib/theme';
 import { showAlertDialog } from '../lib/utils/ui';
+import { ResetPasswordProps } from '../routes';
 
-export const ResetPassword: FC<ResetPasswordProps> = ({ token }) => {
-  const navigation = useNavigation();
+export const ResetPassword: FC<ResetPasswordProps> = ({ navigation, route }) => {
   const notificare = useNotificare();
 
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
-  const [state, actions] = useNetworkRequest(() => notificare.resetPassword(token, password));
+  const [state, actions] = useNetworkRequest(() => notificare.resetPassword(route.params.token, password));
 
   const onRecoverPasswordPress = () => {
     if (!password.trim().length || !passwordConfirmation.trim().length) {
@@ -73,10 +72,6 @@ export const ResetPassword: FC<ResetPasswordProps> = ({ token }) => {
     </>
   );
 };
-
-interface ResetPasswordProps {
-  token: string;
-}
 
 const styles = StyleSheet.create({
   container: {

@@ -23,7 +23,7 @@ export type RootStackParamList = {
   [Routes.signIn]: undefined;
   [Routes.signUp]: undefined;
   [Routes.forgotPassword]: undefined;
-  [Routes.resetPassword]: undefined;
+  [Routes.resetPassword]: ResetPasswordParams;
   [Routes.profile]: undefined;
   [Routes.profilePreferencePicker]: ProfilePreferencePickerParams;
   [Routes.memberCard]: undefined;
@@ -45,6 +45,8 @@ export type ChangePasswordProps = StackScreenProps<RootStackParamList, Routes.ch
 
 export type AccountValidationProps = StackScreenProps<RootStackParamList, Routes.accountValidation>;
 
+export type ResetPasswordProps = StackScreenProps<RootStackParamList, Routes.resetPassword>;
+
 // endregion
 
 // region Route params
@@ -52,5 +54,7 @@ export type AccountValidationProps = StackScreenProps<RootStackParamList, Routes
 export type ProfilePreferencePickerParams = { preference: NotificareUserPreference };
 
 export type AccountValidationParams = { token: string };
+
+export type ResetPasswordParams = { token: string };
 
 // endregion

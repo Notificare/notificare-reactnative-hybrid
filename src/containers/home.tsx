@@ -15,6 +15,9 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
     onActivationTokenReceived: (data) => {
       navigation.push(Routes.accountValidation, { token: data.token });
     },
+    onResetPasswordTokenReceived: (data) => {
+      navigation.push(Routes.resetPassword, { token: data.token });
+    },
   });
 
   const [state] = useNetworkRequest(() => getDemoSourceConfig(), { autoStart: true });

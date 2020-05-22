@@ -5,3 +5,5 @@ export type OnReadyCallback = (applicationInfo: NotificareApplicationInfo) => vo
 export type OnDeviceRegisteredCallback = (device: unknown) => void;
 
 export type OnActivationTokenReceivedCallback = (data: { token: string }) => void;
+
+export type OnResetPasswordTokenReceivedCallback = (data: { token: string }) => void;

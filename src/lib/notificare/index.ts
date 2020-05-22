@@ -1,5 +1,10 @@
 import { DeviceEventEmitter, EventEmitter, NativeEventEmitter, NativeModules, Platform } from 'react-native';
-import { OnActivationTokenReceivedCallback, OnDeviceRegisteredCallback, OnReadyCallback } from './events';
+import {
+  OnActivationTokenReceivedCallback,
+  OnDeviceRegisteredCallback,
+  OnReadyCallback,
+  OnResetPasswordTokenReceivedCallback,
+} from './events';
 import { NotificareAsset, NotificareUser, NotificareUserPreference, NotificareUserSegment } from './models';
 
 export class Notificare {
@@ -136,6 +141,8 @@ export class Notificare {
   listen(event: 'deviceRegistered', callback: OnDeviceRegisteredCallback): void;
 
   listen(event: 'activationTokenReceived', callback: OnActivationTokenReceivedCallback): void;
+
+  listen(event: 'resetPasswordTokenReceived', callback: OnResetPasswordTokenReceivedCallback): void;
 
   listen(event: string, callback: (data: any) => void) {
     switch (Platform.OS) {
