@@ -1,5 +1,5 @@
 import { DeviceEventEmitter, EventEmitter, NativeEventEmitter, NativeModules, Platform } from 'react-native';
-import { OnDeviceRegisteredCallback, OnReadyCallback } from './events';
+import { OnActivationTokenReceivedCallback, OnDeviceRegisteredCallback, OnReadyCallback } from './events';
 import { NotificareAsset, NotificareUser, NotificareUserPreference, NotificareUserSegment } from './models';
 
 export class Notificare {
@@ -30,7 +30,7 @@ export class Notificare {
 
   unmount() {
     this.notificareModule.unmount();
-    this.listeners.forEach(({ event, callback }) => this.eventEmitter.removeListener(event, callback));
+    this.removeListeners();
   }
 
   addTag(tag: string): Promise<void> {
@@ -123,6 +123,10 @@ export class Notificare {
     return this.notificareModule.changePassword(password);
   }
 
+  validateAccount(token: string): Promise<void> {
+    return this.notificareModule.validateAccount(token);
+  }
+
   // endregion
 
   // region Listeners
@@ -130,6 +134,8 @@ export class Notificare {
   listen(event: 'ready', callback: OnReadyCallback): void;
 
   listen(event: 'deviceRegistered', callback: OnDeviceRegisteredCallback): void;
+
+  listen(event: 'activationTokenReceived', callback: OnActivationTokenReceivedCallback): void;
 
   listen(event: string, callback: (data: any) => void) {
     switch (Platform.OS) {
@@ -141,6 +147,11 @@ export class Notificare {
       default:
         throw new Error(`Unsupported platform: ${Platform.OS}`);
     }
+  }
+
+  removeListeners() {
+    this.listeners.forEach(({ event, callback }) => this.eventEmitter.removeListener(event, callback));
+    this.listeners.splice(0, this.listeners.length);
   }
 
   // endregion

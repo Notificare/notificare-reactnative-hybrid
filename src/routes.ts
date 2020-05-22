@@ -13,6 +13,7 @@ export enum Routes {
   profilePreferencePicker = 'profile-preference-picker',
   memberCard = 'membercard',
   changePassword = 'change-password',
+  accountValidation = 'account-validation',
 }
 
 export type RootStackParamList = {
@@ -27,9 +28,12 @@ export type RootStackParamList = {
   [Routes.profilePreferencePicker]: ProfilePreferencePickerParams;
   [Routes.memberCard]: undefined;
   [Routes.changePassword]: undefined;
+  [Routes.accountValidation]: AccountValidationParams;
 };
 
 // region Screen props
+
+export type HomeProps = StackScreenProps<RootStackParamList, Routes.home>;
 
 export type UserProfileProps = StackScreenProps<RootStackParamList, Routes.profile>;
 
@@ -39,10 +43,14 @@ export type MemberCardProps = StackScreenProps<RootStackParamList, Routes.member
 
 export type ChangePasswordProps = StackScreenProps<RootStackParamList, Routes.changePassword>;
 
+export type AccountValidationProps = StackScreenProps<RootStackParamList, Routes.accountValidation>;
+
 // endregion
 
 // region Route params
 
 export type ProfilePreferencePickerParams = { preference: NotificareUserPreference };
+
+export type AccountValidationParams = { token: string };
 
 // endregion

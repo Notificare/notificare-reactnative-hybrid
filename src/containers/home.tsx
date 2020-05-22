@@ -7,8 +7,16 @@ import { Loader } from '../components/loader';
 import { useNavigation } from '@react-navigation/native';
 import * as URL from 'url';
 import { trimSlashes } from '../lib/utils';
+import { useNotificare } from '../lib/notificare/hooks';
+import { HomeProps, Routes } from '../routes';
 
-export const Home: FC = () => {
+export const Home: FC<HomeProps> = ({ navigation }) => {
+  useNotificare({
+    onActivationTokenReceived: (data) => {
+      navigation.push(Routes.accountValidation, { token: data.token });
+    },
+  });
+
   const [state] = useNetworkRequest(() => getDemoSourceConfig(), { autoStart: true });
   useDeepLinking();
 

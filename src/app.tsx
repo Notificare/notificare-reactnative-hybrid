@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { Splash } from './containers/splash';
@@ -18,14 +18,20 @@ import { RootStackParamList, Routes } from './routes';
 import { ThemeProvider } from 'react-native-elements';
 import { MemberCard } from './containers/member-card';
 import { ChangePassword } from './containers/change-password';
+import { AccountValidation } from './containers/account-validation';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
 export const App: FC = () => {
-  useNotificare({
+  const notificare = useNotificare({
     onReady: () => console.log('Notificare is ready.'),
     onDeviceRegistered: () => console.log('Device is registered.'),
   });
+
+  useEffect(() => {
+    notificare.launch();
+    return () => notificare.unmount();
+  }, []);
 
   const theme: Theme = {
     ...DefaultTheme,
@@ -80,6 +86,12 @@ export const App: FC = () => {
             name={Routes.changePassword}
             component={ChangePassword}
             options={{ title: 'Change password' }}
+          />
+
+          <RootStack.Screen
+            name={Routes.accountValidation}
+            component={AccountValidation}
+            options={{ title: 'Account' }}
           />
         </RootStack.Navigator>
       </NavigationContainer>

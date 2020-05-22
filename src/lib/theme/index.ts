@@ -5,4 +5,5 @@ export const Colors = {
   divider: '#DCDCDC',
   blackHighEmphasis: 'rgba(0, 0, 0, 0.87)',
   blackMediumEmphasis: 'rgba(0, 0, 0, 0.60)',
+  error: '#B00020',
 };
