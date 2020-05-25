@@ -4,7 +4,7 @@ import { InboxProps } from '../routes';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useNetworkRequest } from '../lib/machines/network';
 import { Loader } from '../components/loader';
-import { NotificareInboxItem } from '../lib/notificare/models';
+import { InboxItem } from '../components/inbox-item';
 
 export const Inbox: FC<InboxProps> = ({}) => {
   const notificare = useNotificare();
@@ -36,10 +36,7 @@ export const Inbox: FC<InboxProps> = ({}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    backgroundColor: 'red',
-  },
+  container: {},
   emptyState: {
     flex: 1,
     justifyContent: 'center',
@@ -47,15 +44,3 @@ const styles = StyleSheet.create({
   },
   emptyMessage: {},
 });
-
-const InboxItem: FC<InboxItemProps> = () => {
-  return (
-    <>
-      <Text>asd</Text>
-    </>
-  );
-};
-
-interface InboxItemProps {
-  item: NotificareInboxItem;
-}
