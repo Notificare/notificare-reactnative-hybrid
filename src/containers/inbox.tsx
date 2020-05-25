@@ -5,10 +5,15 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useNetworkRequest } from '../lib/machines/network';
 import { Loader } from '../components/loader';
 import { InboxItem } from '../components/inbox-item';
+import { NotificareInboxItem } from '../lib/notificare/models';
 
 export const Inbox: FC<InboxProps> = ({}) => {
   const notificare = useNotificare();
   const [request] = useNetworkRequest(() => notificare.fetchInbox(), { autoStart: true });
+
+  const onItemPress = (item: NotificareInboxItem) => {
+    notificare.presentInboxItem(item);
+  };
 
   return (
     <>
@@ -25,7 +30,7 @@ export const Inbox: FC<InboxProps> = ({}) => {
           {request.result.length > 0 && (
             <ScrollView contentContainerStyle={styles.container}>
               {request.result.map((item, index) => (
-                <InboxItem item={item} key={index} />
+                <InboxItem item={item} key={index} onPress={() => onItemPress(item)} />
               ))}
             </ScrollView>
           )}

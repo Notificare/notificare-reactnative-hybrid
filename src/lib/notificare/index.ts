@@ -146,6 +146,10 @@ export class Notificare {
     return this.notificareModule.fetchInbox();
   }
 
+  presentInboxItem(item: NotificareInboxItem): void {
+    this.notificareModule.presentInboxItem(item);
+  }
+
   // endregion
 
   // region Listeners

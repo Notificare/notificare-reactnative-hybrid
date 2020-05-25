@@ -8,6 +8,7 @@ export const Colors = {
   blackHighEmphasis: 'rgba(0, 0, 0, 0.87)',
   blackMediumEmphasis: 'rgba(0, 0, 0, 0.60)',
   error: '#B00020',
+  touchableFeedback: '#EBECEE',
 };
 
 export const Typography = StyleSheet.create({
