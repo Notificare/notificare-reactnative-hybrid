@@ -20,6 +20,7 @@ import { MemberCard } from './containers/member-card';
 import { ChangePassword } from './containers/change-password';
 import { AccountValidation } from './containers/account-validation';
 import { Analytics } from './containers/analytics';
+import { Inbox } from './containers/inbox';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
@@ -96,6 +97,8 @@ export const App: FC = () => {
           />
 
           <RootStack.Screen name={Routes.analytics} component={Analytics} options={{ title: 'Analytics' }} />
+
+          <RootStack.Screen name={Routes.inbox} component={Inbox} options={{ title: 'Inbox' }} />
         </RootStack.Navigator>
       </NavigationContainer>
     </ThemeProvider>

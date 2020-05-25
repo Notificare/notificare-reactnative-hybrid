@@ -5,7 +5,13 @@ import {
   OnReadyCallback,
   OnResetPasswordTokenReceivedCallback,
 } from './events';
-import { NotificareAsset, NotificareUser, NotificareUserPreference, NotificareUserSegment } from './models';
+import {
+  NotificareAsset,
+  NotificareInboxItem,
+  NotificareUser,
+  NotificareUserPreference,
+  NotificareUserSegment,
+} from './models';
 
 export class Notificare {
   private readonly notificareModule: NotificareModule;
@@ -134,6 +140,10 @@ export class Notificare {
 
   logCustomEvent(event: string, data?: object): Promise<void> {
     return this.notificareModule.logCustomEvent(event, data ?? {});
+  }
+
+  fetchInbox(): Promise<NotificareInboxItem[]> {
+    return this.notificareModule.fetchInbox();
   }
 
   // endregion

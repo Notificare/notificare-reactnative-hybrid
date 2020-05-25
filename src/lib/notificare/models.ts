@@ -74,3 +74,18 @@ export interface NotificareUserSegment {
   segmentId: string;
   segmentLabel: string;
 }
+
+export interface NotificareInboxItem {
+  inboxId: string;
+  notification: string;
+  message: string;
+  title?: string;
+  subtitle?: string;
+  attachment?: {
+    mimeType: string;
+    uri: string;
+  };
+  extra?: Record<string, string>;
+  time: string;
+  opened: boolean;
+}
