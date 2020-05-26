@@ -154,6 +154,10 @@ export class Notificare {
     return this.notificareModule.markAsRead(item);
   }
 
+  removeFromInbox(item: NotificareInboxItem): Promise<void> {
+    return this.notificareModule.removeFromInbox(item);
+  }
+
   clearInbox(): Promise<void> {
     return this.notificareModule.clearInbox();
   }

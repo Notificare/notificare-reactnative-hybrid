@@ -53,12 +53,36 @@ export const Inbox: FC<InboxProps> = ({ navigation }) => {
     setSelectedItems([]);
   };
 
-  const deleteSelectedInboxItems = () => {
-    //
+  const deleteSelectedInboxItems = async () => {
+    setState({ loading: true, data: [] });
+
+    for (let item of selectedItems) {
+      try {
+        await notificare.removeFromInbox(item);
+      } catch (e) {
+        console.log(`Failed to remove item from inbox: ${e}`);
+      }
+    }
+
+    setTimeout(() => {
+      reloadData();
+      setSelectedItems([]);
+    }, 250);
   };
 
-  const clearInboxItems = () => {
-    //
+  const clearInboxItems = async () => {
+    setState({ loading: true, data: [] });
+
+    try {
+      await notificare.clearInbox();
+    } catch (e) {
+      console.log(`Failed to clear the inbox: ${e}`);
+    }
+
+    setTimeout(() => {
+      reloadData();
+      setSelectedItems([]);
+    }, 250);
   };
 
   const reloadData = () => {
