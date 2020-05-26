@@ -6,11 +6,11 @@ import { Divider } from 'react-native-elements';
 import { Colors, Typography } from '../lib/theme';
 import TimeAgo from 'react-native-timeago';
 
-export const InboxItem: FC<InboxItemProps> = ({ item, onPress }) => {
+export const InboxItem: FC<InboxItemProps> = ({ item, selected, onPress, onLongPress }) => {
   return (
     <>
-      <TouchableHighlight underlayColor={Colors.touchableFeedback} onPress={onPress}>
-        <View style={styles.container}>
+      <TouchableHighlight underlayColor={Colors.touchableFeedback} onPress={onPress} onLongPress={onLongPress}>
+        <View style={[styles.container, { backgroundColor: selected ? '#EEEEEE' : '#FFFFFF' }]}>
           <Image
             source={item.attachment ? { uri: item.attachment.uri } : NoAttachmentImage}
             style={styles.attachmentImage}
@@ -37,7 +37,9 @@ export const InboxItem: FC<InboxItemProps> = ({ item, onPress }) => {
 
 interface InboxItemProps {
   item: NotificareInboxItem;
+  selected: boolean;
   onPress: () => void;
+  onLongPress: () => void;
 }
 
 const styles = StyleSheet.create({

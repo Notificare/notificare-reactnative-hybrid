@@ -150,6 +150,14 @@ export class Notificare {
     this.notificareModule.presentInboxItem(item);
   }
 
+  markAsRead(item: NotificareInboxItem): Promise<void> {
+    return this.notificareModule.markAsRead(item);
+  }
+
+  clearInbox(): Promise<void> {
+    return this.notificareModule.clearInbox();
+  }
+
   // endregion
 
   // region Listeners
