@@ -9,6 +9,7 @@ import * as URL from 'url';
 import { trimSlashes } from '../lib/utils';
 import { useNotificare } from '../lib/notificare/hooks';
 import { HomeProps, Routes } from '../routes';
+import { showAlertDialog } from '../lib/utils/ui';
 
 export const Home: FC<HomeProps> = ({ navigation }) => {
   const notificare = useNotificare({
@@ -65,6 +66,21 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
 
 const useDeepLinking = () => {
   const navigation = useNavigation();
+  const notificare = useNotificare({
+    onScannableDetected: (scannable) => {
+      if (scannable.notification) {
+        notificare.presentScannable(scannable);
+      } else {
+        showAlertDialog('Custom scannable found. The app is responsible for handling it.');
+      }
+    },
+    onScannableSessionInvalidatedWithError: ({ error }) => {
+      showAlertDialog(error);
+    },
+    onUrlOpened: ({ url }) => {
+      handleDeepLinkingUrl(url);
+    },
+  });
 
   const handleDeepLinkingUrl = (urlStr: string | null) => {
     if (urlStr == null) {
@@ -89,7 +105,7 @@ const useDeepLinking = () => {
         navigation.navigate(trimSlashes(url.path));
         break;
       case '/scan':
-        // TODO start scannable session
+        notificare.startScannableSession();
         break;
     }
   };

@@ -89,3 +89,17 @@ export interface NotificareInboxItem {
   time: string;
   opened: boolean;
 }
+
+export interface NotificareNotification {
+  id: string;
+  // TODO add the other properties...
+}
+
+export interface NotificareScannable {
+  scannableId: string;
+  name?: string;
+  type?: string;
+  tag?: string;
+  data?: Record<string, any>;
+  notification?: NotificareNotification;
+}

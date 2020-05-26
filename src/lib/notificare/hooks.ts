@@ -7,6 +7,9 @@ import {
   OnInboxLoadedCallback,
   OnReadyCallback,
   OnResetPasswordTokenReceivedCallback,
+  OnScannableDetectedCallback,
+  OnScannableSessionInvalidatedWithErrorCallback,
+  OnUrlOpenedCallback,
 } from './events';
 
 export const useNotificare: UseNotificareHook = (listeners) => {
@@ -21,6 +24,10 @@ export const useNotificare: UseNotificareHook = (listeners) => {
       notificare.listen('resetPasswordTokenReceived', listeners?.onResetPasswordTokenReceived);
     if (listeners?.onInboxLoaded) notificare.listen('inboxLoaded', listeners?.onInboxLoaded);
     if (listeners?.onBadgeUpdated) notificare.listen('badgeUpdated', listeners?.onBadgeUpdated);
+    if (listeners?.onScannableDetected) notificare.listen('scannableDetected', listeners?.onScannableDetected);
+    if (listeners?.onScannableSessionInvalidatedWithError)
+      notificare.listen('scannableSessionInvalidatedWithError', listeners?.onScannableSessionInvalidatedWithError);
+    if (listeners?.onUrlOpened) notificare.listen('urlOpened', listeners?.onUrlOpened);
 
     return () => notificare.removeListeners();
   }, []);
@@ -37,4 +44,7 @@ interface NotificareListeners {
   onResetPasswordTokenReceived?: OnResetPasswordTokenReceivedCallback;
   onInboxLoaded?: OnInboxLoadedCallback;
   onBadgeUpdated?: OnBadgeUpdatedCallback;
+  onScannableDetected?: OnScannableDetectedCallback;
+  onScannableSessionInvalidatedWithError?: OnScannableSessionInvalidatedWithErrorCallback;
+  onUrlOpened?: OnUrlOpenedCallback;
 }

@@ -1,4 +1,4 @@
-import { NotificareApplicationInfo, NotificareInboxItem } from './models';
+import { NotificareApplicationInfo, NotificareInboxItem, NotificareScannable } from './models';
 
 export type OnReadyCallback = (applicationInfo: NotificareApplicationInfo) => void;
 
@@ -11,3 +11,9 @@ export type OnResetPasswordTokenReceivedCallback = (data: { token: string }) => 
 export type OnInboxLoadedCallback = (inbox: NotificareInboxItem[]) => void;
 
 export type OnBadgeUpdatedCallback = (unreadCount: number) => void;
+
+export type OnScannableDetectedCallback = (scannable: NotificareScannable) => void;
+
+export type OnScannableSessionInvalidatedWithErrorCallback = (data: { error: string }) => void;
+
+export type OnUrlOpenedCallback = (data: { url: string; options: object }) => void;

@@ -6,10 +6,14 @@ import {
   OnInboxLoadedCallback,
   OnReadyCallback,
   OnResetPasswordTokenReceivedCallback,
+  OnScannableDetectedCallback,
+  OnScannableSessionInvalidatedWithErrorCallback,
+  OnUrlOpenedCallback,
 } from './events';
 import {
   NotificareAsset,
   NotificareInboxItem,
+  NotificareScannable,
   NotificareUser,
   NotificareUserPreference,
   NotificareUserSegment,
@@ -164,6 +168,14 @@ export class Notificare {
     return this.notificareModule.clearInbox();
   }
 
+  startScannableSession(): void {
+    this.notificareModule.startScannableSession();
+  }
+
+  presentScannable(scannable: NotificareScannable): void {
+    this.notificareModule.presentScannable(scannable);
+  }
+
   // endregion
 
   // region Listeners
@@ -179,6 +191,12 @@ export class Notificare {
   listen(event: 'inboxLoaded', callback: OnInboxLoadedCallback): void;
 
   listen(event: 'badgeUpdated', callback: OnBadgeUpdatedCallback): void;
+
+  listen(event: 'scannableDetected', callback: OnScannableDetectedCallback): void;
+
+  listen(event: 'scannableSessionInvalidatedWithError', callback: OnScannableSessionInvalidatedWithErrorCallback): void;
+
+  listen(event: 'urlOpened', callback: OnUrlOpenedCallback): void;
 
   listen(event: string, callback: (data: any) => void) {
     switch (Platform.OS) {
