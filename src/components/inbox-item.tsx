@@ -10,7 +10,12 @@ export const InboxItem: FC<InboxItemProps> = ({ item, selected, onPress, onLongP
   return (
     <>
       <TouchableHighlight underlayColor={Colors.touchableFeedback} onPress={onPress} onLongPress={onLongPress}>
-        <View style={[styles.container, { backgroundColor: selected ? '#EEEEEE' : '#FFFFFF' }]}>
+        <View
+          style={[
+            styles.container,
+            { backgroundColor: selected ? '#EEEEEE' : '#FFFFFF', opacity: item.opened ? 0.5 : 1 },
+          ]}
+        >
           <Image
             source={item.attachment ? { uri: item.attachment.uri } : NoAttachmentImage}
             style={styles.attachmentImage}
@@ -62,5 +67,6 @@ const styles = StyleSheet.create({
   timeAgo: {
     alignSelf: 'flex-end',
     marginTop: 10,
+    fontStyle: 'italic',
   },
 });
