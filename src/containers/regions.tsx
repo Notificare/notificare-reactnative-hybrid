@@ -1,10 +1,12 @@
-import React, { FC, Fragment, useEffect, useState } from 'react';
+import React, { FC, Fragment, useEffect, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { RegionsProps } from '../routes';
-import MapView, { Circle, MAP_TYPES, Marker, Polygon } from 'react-native-maps';
+import MapView, { Circle, LatLng, MAP_TYPES, Marker, Polygon } from 'react-native-maps';
 import { useNotificare } from '../lib/notificare/hooks';
 import { Colors } from '../lib/theme';
 import MarkerImage from '../assets/images/map_marker.png';
+import UserMarkerImage from '../assets/images/user_location.png';
+import Geolocation from '@react-native-community/geolocation';
 
 const ROTTERDAM = {
   latitude: 51.9244,
@@ -13,8 +15,9 @@ const ROTTERDAM = {
 
 export const Regions: FC<RegionsProps> = ({}) => {
   const notificare = useNotificare();
-  const [currentLocation, setCurrentLocation] = useState();
+  const [currentLocation, setCurrentLocation] = useState<LatLng>();
   const [regions, setRegions] = useState<any[]>([]);
+  const mapRef = useRef<MapView>(null);
 
   useEffect(() => {
     notificare
@@ -23,8 +26,28 @@ export const Regions: FC<RegionsProps> = ({}) => {
       .catch((e) => console.log(`Failed to fetch the regions: ${e}`));
   }, []);
 
+  useEffect(() => {
+    const watchId = Geolocation.watchPosition(
+      ({ coords }) => {
+        console.log(`Received a location update: ${JSON.stringify(coords)}`);
+        const updateCamera = currentLocation == null;
+
+        setCurrentLocation({ latitude: coords.latitude, longitude: coords.longitude });
+
+        if (updateCamera) {
+          mapRef.current?.animateCamera({ center: { latitude: coords.latitude, longitude: coords.longitude } });
+        }
+      },
+      (error) => console.log(`Failed updating the current location: ${error}`),
+      { enableHighAccuracy: true },
+    );
+
+    return () => Geolocation.clearWatch(watchId);
+  }, []);
+
   return (
     <MapView
+      ref={mapRef}
       style={{ flex: 1 }}
       mapType={MAP_TYPES.STANDARD}
       initialRegion={{
@@ -40,11 +63,19 @@ export const Regions: FC<RegionsProps> = ({}) => {
       zoomEnabled
       zoomTapEnabled
       toolbarEnabled
+      onLayout={() => {
+        if (currentLocation == null) return;
+        mapRef.current?.animateCamera({
+          center: { latitude: currentLocation.latitude, longitude: currentLocation.longitude },
+        });
+      }}
     >
-      {/*{currentLocation != null && (*/}
-      {/*  <Marker coordinate={{ latitude: currentLocation.latitude, longitude: currentLocation.latitude }} />*/}
-      {/*)}*/}
-
+      {currentLocation && (
+        <Marker
+          coordinate={{ latitude: currentLocation.latitude, longitude: currentLocation.longitude }}
+          image={UserMarkerImage}
+        />
+      )}
       {regions.map((region) => {
         const center = region.geometry.coordinates;
 
