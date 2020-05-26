@@ -3,6 +3,7 @@ import { Notificare } from './index';
 import {
   OnActivationTokenReceivedCallback,
   OnDeviceRegisteredCallback,
+  OnInboxLoadedCallback,
   OnReadyCallback,
   OnResetPasswordTokenReceivedCallback,
 } from './events';
@@ -17,6 +18,7 @@ export const useNotificare: UseNotificareHook = (listeners) => {
       notificare.listen('activationTokenReceived', listeners.onActivationTokenReceived);
     if (listeners?.onResetPasswordTokenReceived)
       notificare.listen('resetPasswordTokenReceived', listeners?.onResetPasswordTokenReceived);
+    if (listeners?.onInboxLoaded) notificare.listen('inboxLoaded', listeners?.onInboxLoaded);
 
     return () => notificare.removeListeners();
   }, []);
@@ -31,4 +33,5 @@ interface NotificareListeners {
   onDeviceRegistered?: OnDeviceRegisteredCallback;
   onActivationTokenReceived?: OnActivationTokenReceivedCallback;
   onResetPasswordTokenReceived?: OnResetPasswordTokenReceivedCallback;
+  onInboxLoaded?: OnInboxLoadedCallback;
 }

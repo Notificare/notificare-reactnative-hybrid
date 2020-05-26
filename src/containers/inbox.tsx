@@ -8,7 +8,9 @@ import { NotificareInboxItem } from '../lib/notificare/models';
 import { Button, Icon } from 'react-native-elements';
 
 export const Inbox: FC<InboxProps> = ({ navigation }) => {
-  const notificare = useNotificare();
+  const notificare = useNotificare({
+    onInboxLoaded: (inbox) => setState({ loading: false, data: inbox }),
+  });
   const [state, setState] = useState<InboxState>({ loading: true, data: [] });
   const [selectedItems, setSelectedItems] = useState<NotificareInboxItem[]>([]);
 

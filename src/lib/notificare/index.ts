@@ -2,6 +2,7 @@ import { DeviceEventEmitter, EventEmitter, NativeEventEmitter, NativeModules, Pl
 import {
   OnActivationTokenReceivedCallback,
   OnDeviceRegisteredCallback,
+  OnInboxLoadedCallback,
   OnReadyCallback,
   OnResetPasswordTokenReceivedCallback,
 } from './events';
@@ -173,6 +174,8 @@ export class Notificare {
   listen(event: 'activationTokenReceived', callback: OnActivationTokenReceivedCallback): void;
 
   listen(event: 'resetPasswordTokenReceived', callback: OnResetPasswordTokenReceivedCallback): void;
+
+  listen(event: 'inboxLoaded', callback: OnInboxLoadedCallback): void;
 
   listen(event: string, callback: (data: any) => void) {
     switch (Platform.OS) {
