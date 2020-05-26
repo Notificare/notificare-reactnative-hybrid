@@ -21,6 +21,7 @@ import { ChangePassword } from './containers/change-password';
 import { AccountValidation } from './containers/account-validation';
 import { Analytics } from './containers/analytics';
 import { Inbox } from './containers/inbox';
+import { Regions } from './containers/regions';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
@@ -99,6 +100,8 @@ export const App: FC = () => {
           <RootStack.Screen name={Routes.analytics} component={Analytics} options={{ title: 'Analytics' }} />
 
           <RootStack.Screen name={Routes.inbox} component={Inbox} options={{ title: 'Inbox' }} />
+
+          <RootStack.Screen name={Routes.regions} component={Regions} options={{ title: 'Regions' }} />
         </RootStack.Navigator>
       </NavigationContainer>
     </ThemeProvider>

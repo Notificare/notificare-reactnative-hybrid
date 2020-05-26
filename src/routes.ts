@@ -16,6 +16,7 @@ export enum Routes {
   accountValidation = 'account-validation',
   analytics = 'analytics',
   inbox = 'inbox',
+  regions = 'regions',
 }
 
 export type RootStackParamList = {
@@ -33,6 +34,7 @@ export type RootStackParamList = {
   [Routes.accountValidation]: AccountValidationParams;
   [Routes.analytics]: undefined;
   [Routes.inbox]: undefined;
+  [Routes.regions]: undefined;
 };
 
 // region Screen props
@@ -54,6 +56,8 @@ export type ResetPasswordProps = StackScreenProps<RootStackParamList, Routes.res
 export type AnalyticsProps = StackScreenProps<RootStackParamList, Routes.analytics>;
 
 export type InboxProps = StackScreenProps<RootStackParamList, Routes.inbox>;
+
+export type RegionsProps = StackScreenProps<RootStackParamList, Routes.regions>;
 
 // endregion
 
