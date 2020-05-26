@@ -4,6 +4,7 @@ import { RegionsProps } from '../routes';
 import MapView, { Circle, MAP_TYPES, Marker, Polygon } from 'react-native-maps';
 import { useNotificare } from '../lib/notificare/hooks';
 import { Colors } from '../lib/theme';
+import MarkerImage from '../assets/images/map_marker.png';
 
 const ROTTERDAM = {
   latitude: 51.9244,
@@ -49,7 +50,11 @@ export const Regions: FC<RegionsProps> = ({}) => {
 
         return (
           <Fragment key={region._id}>
-            <Marker coordinate={{ latitude: center[1], longitude: center[0] }} title={region.name} />
+            <Marker
+              coordinate={{ latitude: center[1], longitude: center[0] }}
+              title={region.name}
+              image={MarkerImage}
+            />
 
             {region.advancedGeometry != null ? (
               <Polygon
