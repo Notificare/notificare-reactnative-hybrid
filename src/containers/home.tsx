@@ -1,8 +1,8 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { Linking } from 'react-native';
 import WebView from 'react-native-webview';
 import { useNetworkRequest } from '../lib/machines/network';
-import { getDemoSourceConfig } from '../lib/utils/storage';
+import { getCustomScript, getDemoSourceConfig } from '../lib/utils/storage';
 import { Loader } from '../components/loader';
 import { useNavigation } from '@react-navigation/native';
 import * as URL from 'url';
@@ -11,7 +11,8 @@ import { useNotificare } from '../lib/notificare/hooks';
 import { HomeProps, Routes } from '../routes';
 
 export const Home: FC<HomeProps> = ({ navigation }) => {
-  useNotificare({
+  const notificare = useNotificare({
+    onBadgeUpdated: (unreadCount) => updateBadge(unreadCount),
     onActivationTokenReceived: (data) => {
       navigation.push(Routes.accountValidation, { token: data.token });
     },
@@ -23,11 +24,41 @@ export const Home: FC<HomeProps> = ({ navigation }) => {
   const [state] = useNetworkRequest(() => getDemoSourceConfig(), { autoStart: true });
   useDeepLinking();
 
+  const webViewRef = useRef<WebView>(null);
+
+  const updateBadge = async (unreadCount?: number) => {
+    try {
+      const script = await getCustomScript();
+      if (script == null) return;
+
+      if (unreadCount === undefined) {
+        const inbox = await notificare.fetchInbox();
+        unreadCount = inbox.filter((item) => !item.opened).length;
+      }
+
+      const badge = unreadCount > 0 ? `${unreadCount}` : '';
+      const js = script.replace('%@', badge);
+
+      webViewRef.current?.injectJavaScript(
+        `javascript:(function() {var parent = document.getElementsByTagName('head').item(0);var script = document.createElement('script');script.type = 'text/javascript';script.innerHTML = ${js};parent.appendChild(script)})()`,
+      );
+    } catch (e) {
+      console.log(`Failed to update the badge: ${e}`);
+    }
+  };
+
   return (
     <>
       {(state.status == 'idle' || state.status == 'pending') && <Loader />}
 
-      {state.status == 'successful' && <WebView source={{ uri: state.result!.url }} javaScriptEnabled={true} />}
+      {state.status == 'successful' && (
+        <WebView
+          ref={webViewRef}
+          source={{ uri: state.result!.url }}
+          javaScriptEnabled={true}
+          onLoadEnd={() => updateBadge()}
+        />
+      )}
     </>
   );
 };

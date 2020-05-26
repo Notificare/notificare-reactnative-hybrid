@@ -1,6 +1,7 @@
 import { DeviceEventEmitter, EventEmitter, NativeEventEmitter, NativeModules, Platform } from 'react-native';
 import {
   OnActivationTokenReceivedCallback,
+  OnBadgeUpdatedCallback,
   OnDeviceRegisteredCallback,
   OnInboxLoadedCallback,
   OnReadyCallback,
@@ -176,6 +177,8 @@ export class Notificare {
   listen(event: 'resetPasswordTokenReceived', callback: OnResetPasswordTokenReceivedCallback): void;
 
   listen(event: 'inboxLoaded', callback: OnInboxLoadedCallback): void;
+
+  listen(event: 'badgeUpdated', callback: OnBadgeUpdatedCallback): void;
 
   listen(event: string, callback: (data: any) => void) {
     switch (Platform.OS) {

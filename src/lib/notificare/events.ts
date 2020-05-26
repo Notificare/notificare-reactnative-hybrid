@@ -9,3 +9,5 @@ export type OnActivationTokenReceivedCallback = (data: { token: string }) => voi
 export type OnResetPasswordTokenReceivedCallback = (data: { token: string }) => void;
 
 export type OnInboxLoadedCallback = (inbox: NotificareInboxItem[]) => void;
+
+export type OnBadgeUpdatedCallback = (unreadCount: number) => void;

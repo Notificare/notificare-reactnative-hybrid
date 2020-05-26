@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Notificare } from './index';
 import {
   OnActivationTokenReceivedCallback,
+  OnBadgeUpdatedCallback,
   OnDeviceRegisteredCallback,
   OnInboxLoadedCallback,
   OnReadyCallback,
@@ -19,6 +20,7 @@ export const useNotificare: UseNotificareHook = (listeners) => {
     if (listeners?.onResetPasswordTokenReceived)
       notificare.listen('resetPasswordTokenReceived', listeners?.onResetPasswordTokenReceived);
     if (listeners?.onInboxLoaded) notificare.listen('inboxLoaded', listeners?.onInboxLoaded);
+    if (listeners?.onBadgeUpdated) notificare.listen('badgeUpdated', listeners?.onBadgeUpdated);
 
     return () => notificare.removeListeners();
   }, []);
@@ -34,4 +36,5 @@ interface NotificareListeners {
   onActivationTokenReceived?: OnActivationTokenReceivedCallback;
   onResetPasswordTokenReceived?: OnResetPasswordTokenReceivedCallback;
   onInboxLoaded?: OnInboxLoadedCallback;
+  onBadgeUpdated?: OnBadgeUpdatedCallback;
 }
