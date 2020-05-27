@@ -20,6 +20,7 @@ import { MemberCard } from './containers/member-card';
 import { ChangePassword } from './containers/change-password';
 import { AccountValidation } from './containers/account-validation';
 import { Analytics } from './containers/analytics';
+import { Storage } from './containers/storage';
 import { Inbox } from './containers/inbox';
 import { Regions } from './containers/regions';
 
@@ -102,6 +103,8 @@ export const App: FC = () => {
           <RootStack.Screen name={Routes.inbox} component={Inbox} options={{ title: 'Inbox' }} />
 
           <RootStack.Screen name={Routes.regions} component={Regions} options={{ title: 'Regions' }} />
+
+          <RootStack.Screen name={Routes.storage} component={Storage} options={{ title: 'Storage' }} />
         </RootStack.Navigator>
       </NavigationContainer>
     </ThemeProvider>

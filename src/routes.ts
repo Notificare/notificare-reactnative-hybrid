@@ -17,6 +17,7 @@ export enum Routes {
   analytics = 'analytics',
   inbox = 'inbox',
   regions = 'regions',
+  storage = 'storage',
 }
 
 export type RootStackParamList = {
@@ -35,6 +36,7 @@ export type RootStackParamList = {
   [Routes.analytics]: undefined;
   [Routes.inbox]: undefined;
   [Routes.regions]: undefined;
+  [Routes.storage]: undefined;
 };
 
 // region Screen props
@@ -58,6 +60,8 @@ export type AnalyticsProps = StackScreenProps<RootStackParamList, Routes.analyti
 export type InboxProps = StackScreenProps<RootStackParamList, Routes.inbox>;
 
 export type RegionsProps = StackScreenProps<RootStackParamList, Routes.regions>;
+
+export type StorageProps = StackScreenProps<RootStackParamList, Routes.storage>;
 
 // endregion
 
