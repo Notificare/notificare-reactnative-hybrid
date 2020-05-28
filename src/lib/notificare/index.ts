@@ -2,6 +2,7 @@ import { DeviceEventEmitter, EventEmitter, NativeEventEmitter, NativeModules, Pl
 import {
   OnActivationTokenReceivedCallback,
   OnBadgeUpdatedCallback,
+  OnBeaconsInRangeForRegionCallback,
   OnDeviceRegisteredCallback,
   OnInboxLoadedCallback,
   OnReadyCallback,
@@ -66,6 +67,10 @@ export class Notificare {
     return this.notificareModule.fetchAssets(group);
   }
 
+  isRemoteNotificationsEnabled(): Promise<boolean> {
+    return this.notificareModule.isRemoteNotificationsEnabled();
+  }
+
   registerForNotifications(): void {
     this.notificareModule.registerForNotifications();
   }
@@ -80,6 +85,10 @@ export class Notificare {
 
   startLocationUpdates(): void {
     this.notificareModule.startLocationUpdates();
+  }
+
+  enableBeacons(): void {
+    this.notificareModule.enableBeacons();
   }
 
   doCloudHostOperation(
@@ -197,6 +206,8 @@ export class Notificare {
   listen(event: 'scannableSessionInvalidatedWithError', callback: OnScannableSessionInvalidatedWithErrorCallback): void;
 
   listen(event: 'urlOpened', callback: OnUrlOpenedCallback): void;
+
+  listen(event: 'beaconsInRangeForRegion', callback: OnBeaconsInRangeForRegionCallback): void;
 
   listen(event: string, callback: (data: any) => void) {
     switch (Platform.OS) {

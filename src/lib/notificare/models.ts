@@ -103,3 +103,7 @@ export interface NotificareScannable {
   data?: Record<string, any>;
   notification?: NotificareNotification;
 }
+
+export interface NotificareBeacon {
+  name: string;
+}

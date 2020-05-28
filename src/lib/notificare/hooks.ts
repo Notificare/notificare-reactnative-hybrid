@@ -3,6 +3,7 @@ import { Notificare } from './index';
 import {
   OnActivationTokenReceivedCallback,
   OnBadgeUpdatedCallback,
+  OnBeaconsInRangeForRegionCallback,
   OnDeviceRegisteredCallback,
   OnInboxLoadedCallback,
   OnReadyCallback,
@@ -28,6 +29,8 @@ export const useNotificare: UseNotificareHook = (listeners) => {
     if (listeners?.onScannableSessionInvalidatedWithError)
       notificare.listen('scannableSessionInvalidatedWithError', listeners?.onScannableSessionInvalidatedWithError);
     if (listeners?.onUrlOpened) notificare.listen('urlOpened', listeners?.onUrlOpened);
+    if (listeners?.onBeaconsInRangeForRegion)
+      notificare.listen('beaconsInRangeForRegion', listeners?.onBeaconsInRangeForRegion);
 
     return () => notificare.removeListeners();
   }, []);
@@ -47,4 +50,5 @@ interface NotificareListeners {
   onScannableDetected?: OnScannableDetectedCallback;
   onScannableSessionInvalidatedWithError?: OnScannableSessionInvalidatedWithErrorCallback;
   onUrlOpened?: OnUrlOpenedCallback;
+  onBeaconsInRangeForRegion?: OnBeaconsInRangeForRegionCallback;
 }

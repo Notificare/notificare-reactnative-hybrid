@@ -41,7 +41,7 @@ export const Onboarding: FC = () => {
 
     console.log('Enabling location updates.');
     notificare.startLocationUpdates();
-    // TODO enable beacons
+    notificare.enableBeacons();
 
     await setOnboardingStatus(true);
     navigation.dispatch(StackActions.replace('home'));

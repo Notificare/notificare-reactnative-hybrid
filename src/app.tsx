@@ -23,12 +23,30 @@ import { Analytics } from './containers/analytics';
 import { Storage } from './containers/storage';
 import { Inbox } from './containers/inbox';
 import { Regions } from './containers/regions';
+import { Beacons } from './containers/beacons';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
 export const App: FC = () => {
   const notificare = useNotificare({
-    onReady: () => console.log('Notificare is ready.'),
+    onReady: async () => {
+      console.log('Notificare is ready.');
+
+      try {
+        if (await notificare.isRemoteNotificationsEnabled()) {
+          console.debug('Remote notifications are enabled. Registering for notifications...');
+          notificare.registerForNotifications();
+        }
+
+        if (await notificare.isLocationServicesEnabled()) {
+          console.debug('Location services are enabled. Start location updates & beacons...');
+          notificare.startLocationUpdates();
+          notificare.enableBeacons();
+        }
+      } catch (e) {
+        console.log(`Well this was unexpected: ${e}`);
+      }
+    },
     onDeviceRegistered: () => console.log('Device is registered.'),
   });
 
@@ -105,6 +123,8 @@ export const App: FC = () => {
           <RootStack.Screen name={Routes.regions} component={Regions} options={{ title: 'Regions' }} />
 
           <RootStack.Screen name={Routes.storage} component={Storage} options={{ title: 'Storage' }} />
+
+          <RootStack.Screen name={Routes.beacons} component={Beacons} options={{ title: 'Beacons' }} />
         </RootStack.Navigator>
       </NavigationContainer>
     </ThemeProvider>
