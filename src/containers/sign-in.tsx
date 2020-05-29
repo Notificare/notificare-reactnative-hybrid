@@ -3,16 +3,15 @@ import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import HeaderImage from '../assets/images/padlock.png';
 import { Colors } from '../lib/theme';
 import { useNotificare } from '../lib/notificare/hooks';
-import { StackActions, useNavigation } from '@react-navigation/native';
 import { showAlertDialog } from '../lib/utils/ui';
 import { useNetworkRequest } from '../lib/machines/network';
 import { Notificare } from '../lib/notificare';
 import { Loader } from '../components/loader';
 import { createMemberCard } from '../lib/utils/loyalty';
 import { Button, Input } from 'react-native-elements';
+import { Routes, SignInProps } from '../routes';
 
-export const SignIn: FC = () => {
-  const navigation = useNavigation();
+export const SignIn: FC<SignInProps> = ({ navigation }) => {
   const notificare = useNotificare();
 
   const [email, setEmail] = useState('');
@@ -34,7 +33,7 @@ export const SignIn: FC = () => {
       await actions.start();
 
       // Go to the user profile.
-      navigation.dispatch(StackActions.replace('profile'));
+      navigation.replace(Routes.profile);
     } catch (e) {
       showAlertDialog('Invalid credentials.');
       setPassword('');
@@ -57,7 +56,6 @@ export const SignIn: FC = () => {
           />
 
           <Input
-            keyboardType="visible-password"
             placeholder="password"
             secureTextEntry={true}
             value={password}
@@ -68,7 +66,7 @@ export const SignIn: FC = () => {
             <Button
               type="clear"
               title="Forgotten password"
-              onPress={() => navigation.navigate('forgotpassword')}
+              onPress={() => navigation.push(Routes.forgotPassword)}
               containerStyle={[styles.button, styles.forgotPasswordButton]}
               titleStyle={styles.forgotPasswordButtonText}
             />
@@ -77,7 +75,7 @@ export const SignIn: FC = () => {
 
             <Button
               title="Create an account"
-              onPress={() => navigation.navigate('signup')}
+              onPress={() => navigation.push(Routes.signUp)}
               containerStyle={styles.button}
             />
           </View>

@@ -71,6 +71,8 @@ export type BeaconsProps = StackScreenProps<RootStackParamList, Routes.beacons>;
 
 export type SettingsProps = StackScreenProps<RootStackParamList, Routes.settings>;
 
+export type SignInProps = StackScreenProps<RootStackParamList, Routes.signIn>;
+
 // endregion
 
 // region Route params
