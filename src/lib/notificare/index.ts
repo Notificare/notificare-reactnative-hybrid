@@ -104,6 +104,14 @@ export class Notificare {
     return this.notificareModule.fetchDoNotDisturb();
   }
 
+  updateDoNotDisturb(dnd: Required<NotificareDeviceDnD>): Promise<NotificareDeviceDnD> {
+    return this.notificareModule.updateDoNotDisturb(dnd);
+  }
+
+  clearDoNotDisturb(): Promise<void> {
+    return this.notificareModule.clearDoNotDisturb();
+  }
+
   doCloudHostOperation(
     verb: HttpVerb,
     path: string,

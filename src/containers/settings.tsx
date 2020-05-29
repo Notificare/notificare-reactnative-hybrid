@@ -12,10 +12,12 @@ import { NotificareDeviceDnD } from '../lib/notificare/models';
 import { Icon } from 'react-native-elements';
 import { getVersion } from 'react-native-device-info';
 import Mailer from 'react-native-mail';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
 export const Settings: FC<SettingsProps> = () => {
   const notificare = useNotificare();
-  const [request] = useNetworkRequest(() => loadData(), {
+  const [request, requestActions] = useNetworkRequest(() => loadData(), {
     autoStart: true,
     onStarted: () => setLoading(true),
     onFinished: async (state) => {
@@ -45,6 +47,9 @@ export const Settings: FC<SettingsProps> = () => {
     tagEvents: false,
   });
 
+  const [showStartPicker, setShowStartPicker] = useState(false);
+  const [showEndPicker, setShowEndPicker] = useState(false);
+
   const loadData = async () => {
     const demoSourceConfig = await getDemoSourceConfig();
 
@@ -61,6 +66,10 @@ export const Settings: FC<SettingsProps> = () => {
     };
 
     return result;
+  };
+
+  const reloadData = () => {
+    requestActions.start().catch((e) => `Failed to refresh the data: ${e}`);
   };
 
   const sendFeedback = async () => {
@@ -85,6 +94,26 @@ export const Settings: FC<SettingsProps> = () => {
     );
   };
 
+  const updateDnD = async (enabled: boolean, start?: string, end?: string) => {
+    if (start == null && end == null) {
+      setSwitches((prevState) => ({ ...prevState, dnd: enabled }));
+    }
+
+    setLoading(true);
+
+    try {
+      if (enabled) {
+        await notificare.updateDoNotDisturb({ start: start ?? '00:00', end: end ?? '08:00' });
+      } else {
+        await notificare.clearDoNotDisturb();
+      }
+    } catch (e) {
+      console.log(`Failed to update dnd: ${e}`);
+    } finally {
+      reloadData();
+    }
+  };
+
   const updateTag = async (prop: 'tagPress' | 'tagNewsletter' | 'tagEvents', tag: string, enabled: boolean) => {
     setSwitches((prevState) => ({ ...prevState, [prop]: enabled }));
     setLoading(true);
@@ -98,6 +127,8 @@ export const Settings: FC<SettingsProps> = () => {
     } catch (e) {
       console.log(`Failed to update tag: ${e}`);
       setSwitches((prevState) => ({ ...prevState, [prop]: !enabled }));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -106,88 +137,132 @@ export const Settings: FC<SettingsProps> = () => {
       {loading && <Loader />}
 
       {request.status === 'successful' && (
-        <ScrollView>
-          <List withDividers withLastDivider>
-            <ListHeader text="Notification Settings" />
+        <>
+          <ScrollView>
+            <List withDividers withLastDivider>
+              <ListHeader text="Notification Settings" />
 
-            <ListItem
-              primaryText="Notifications"
-              secondaryText="Receive messages with our news, events or any other campaign we might find relevant for you"
-              trailingComponent={<Switch value={switches.notifications} />}
-            />
-
-            {request.result.useLocationServices && (
               <ListItem
-                primaryText="Location Services"
-                secondaryText="Allow us to collect your location data in order to send notifications whenever you are around"
-                trailingComponent={<Switch value={switches.location} />}
+                primaryText="Notifications"
+                secondaryText="Receive messages with our news, events or any other campaign we might find relevant for you"
+                trailingComponent={<Switch value={switches.notifications} />}
               />
-            )}
 
-            {request.result.useDoNotDisturb && (
-              <>
+              {request.result.useLocationServices && (
+                <ListItem
+                  primaryText="Location Services"
+                  secondaryText="Allow us to collect your location data in order to send notifications whenever you are around"
+                  trailingComponent={<Switch value={switches.location} />}
+                />
+              )}
+
+              {request.result.useDoNotDisturb && (
                 <ListItem
                   primaryText="Do Not Disturb"
                   secondaryText="Configure a period of time where notifications will not generate alerts in the notification center"
-                  trailingComponent={<Switch value={switches.dnd} />}
+                  trailingComponent={<Switch value={switches.dnd} onValueChange={(value) => updateDnD(value)} />}
                 />
+              )}
 
-                {request.result.dnd?.start != null && request.result.dnd?.end != null && (
-                  <>
-                    <ListItem primaryText="From" trailingText={request.result.dnd.start} />
-
-                    <ListItem primaryText="To" trailingText={request.result.dnd.end} />
-                  </>
+              {request.result.useDoNotDisturb &&
+                request.result.dnd?.start != null &&
+                request.result.dnd?.end != null && (
+                  <ListItem
+                    primaryText="From"
+                    trailingText={request.result.dnd.start}
+                    onPress={() => setShowStartPicker(true)}
+                  />
                 )}
-              </>
-            )}
 
-            <ListHeader text="Tags" />
+              {request.result.useDoNotDisturb &&
+                request.result.dnd?.start != null &&
+                request.result.dnd?.end != null && (
+                  <ListItem
+                    primaryText="To"
+                    trailingText={request.result.dnd.end}
+                    onPress={() => setShowEndPicker(true)}
+                  />
+                )}
 
-            <ListItem
-              primaryText="Press"
-              secondaryText="Subscribe me to the group of devices that would like to receive all the news via push notifications"
-              trailingComponent={
-                <Switch
-                  value={switches.tagPress}
-                  onValueChange={(value) => updateTag('tagPress', 'tag_press', value)}
-                />
-              }
+              <ListHeader text="Tags" />
+
+              <ListItem
+                primaryText="Press"
+                secondaryText="Subscribe me to the group of devices that would like to receive all the news via push notifications"
+                trailingComponent={
+                  <Switch
+                    value={switches.tagPress}
+                    onValueChange={(value) => updateTag('tagPress', 'tag_press', value)}
+                  />
+                }
+              />
+
+              <ListItem
+                primaryText="Newsletter"
+                secondaryText="Subscribe me to the group of devices that would like to receive your newsletter"
+                trailingComponent={
+                  <Switch
+                    value={switches.tagNewsletter}
+                    onValueChange={(value) => updateTag('tagNewsletter', 'tag_newsletter', value)}
+                  />
+                }
+              />
+
+              <ListItem
+                primaryText="Events"
+                secondaryText="Subscribe me to the group of devices that would like to receive all the events via push notifications"
+                trailingComponent={
+                  <Switch
+                    value={switches.tagEvents}
+                    onValueChange={(value) => updateTag('tagEvents', 'tag_events', value)}
+                  />
+                }
+              />
+
+              <ListHeader text="About this app" />
+
+              <ListItem
+                primaryText="Leave your feedback"
+                trailingComponent={<Icon type="material" name="keyboard-arrow-right" />}
+                onPress={() => sendFeedback()}
+              />
+
+              <ListItem primaryText="App version" trailingText={getVersion()} />
+            </List>
+          </ScrollView>
+
+          {showStartPicker && (
+            <DateTimePicker
+              mode="time"
+              is24Hour
+              value={request.result.dnd?.start ? moment(request.result.dnd.start, 'HH:mm').toDate() : new Date()}
+              onChange={(event, date) => {
+                setShowStartPicker(false);
+
+                const start = moment(date).format('HH:mm');
+                const end = request.result.dnd?.end;
+
+                updateDnD(true, start, end).catch((e) => `Failed to update DND: ${e}`);
+              }}
             />
+          )}
 
-            <ListItem
-              primaryText="Newsletter"
-              secondaryText="Subscribe me to the group of devices that would like to receive your newsletter"
-              trailingComponent={
-                <Switch
-                  value={switches.tagNewsletter}
-                  onValueChange={(value) => updateTag('tagNewsletter', 'tag_newsletter', value)}
-                />
-              }
+          {showEndPicker && (
+            <DateTimePicker
+              mode="time"
+              is24Hour
+              value={request.result.dnd?.end ? moment(request.result.dnd.end, 'HH:mm').toDate() : new Date()}
+              onChange={(event, date) => {
+                setShowEndPicker(false);
+
+                const start = request.result.dnd?.start;
+                const end = moment(date).format('HH:mm');
+
+                updateDnD(true, start, end).catch((e) => `Failed to update DND: ${e}`);
+              }}
             />
-
-            <ListItem
-              primaryText="Events"
-              secondaryText="Subscribe me to the group of devices that would like to receive all the events via push notifications"
-              trailingComponent={
-                <Switch
-                  value={switches.tagEvents}
-                  onValueChange={(value) => updateTag('tagEvents', 'tag_events', value)}
-                />
-              }
-            />
-
-            <ListHeader text="About this app" />
-
-            <ListItem
-              primaryText="Leave your feedback"
-              trailingComponent={<Icon type="material" name="keyboard-arrow-right" />}
-              onPress={() => sendFeedback()}
-            />
-
-            <ListItem primaryText="App version" trailingText={getVersion()} />
-          </List>
-        </ScrollView>
+          )}
+        </>
       )}
     </>
   );
