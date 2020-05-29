@@ -107,3 +107,8 @@ export interface NotificareScannable {
 export interface NotificareBeacon {
   name: string;
 }
+
+export interface NotificareDeviceDnD {
+  start: string;
+  end: string;
+}

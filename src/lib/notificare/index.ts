@@ -13,6 +13,7 @@ import {
 } from './events';
 import {
   NotificareAsset,
+  NotificareDeviceDnD,
   NotificareInboxItem,
   NotificareScannable,
   NotificareUser,
@@ -59,6 +60,10 @@ export class Notificare {
     return this.notificareModule.addTags(tags);
   }
 
+  removeTag(tag: string): Promise<void> {
+    return this.notificareModule.removeTag(tag);
+  }
+
   fetchTags(): Promise<string[]> {
     return this.notificareModule.fetchTags();
   }
@@ -69,6 +74,10 @@ export class Notificare {
 
   isRemoteNotificationsEnabled(): Promise<boolean> {
     return this.notificareModule.isRemoteNotificationsEnabled();
+  }
+
+  isAllowedUIEnabled(): Promise<boolean> {
+    return this.notificareModule.isAllowedUIEnabled();
   }
 
   registerForNotifications(): void {
@@ -89,6 +98,10 @@ export class Notificare {
 
   enableBeacons(): void {
     this.notificareModule.enableBeacons();
+  }
+
+  fetchDoNotDisturb(): Promise<NotificareDeviceDnD | undefined> {
+    return this.notificareModule.fetchDoNotDisturb();
   }
 
   doCloudHostOperation(

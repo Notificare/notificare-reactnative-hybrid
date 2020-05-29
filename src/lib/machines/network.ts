@@ -10,6 +10,7 @@ export interface MachineActions<T> {
 
 export interface MachineOptions<T> {
   autoStart?: boolean;
+  onStarted?: () => void;
   onFinished?: (state: FinishedMachineState<T>) => Promise<void>;
 }
 
@@ -28,6 +29,9 @@ export function useNetworkRequest<T>(
         console.log('This network request is already ongoing. Skipping...');
         return undefined;
       }
+
+      // Report the request has started
+      options?.onStarted?.();
 
       try {
         // Transition to pending.

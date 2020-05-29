@@ -19,6 +19,7 @@ export enum Routes {
   regions = 'regions',
   storage = 'storage',
   beacons = 'beacons',
+  settings = 'settings',
 }
 
 export type RootStackParamList = {
@@ -39,6 +40,7 @@ export type RootStackParamList = {
   [Routes.regions]: undefined;
   [Routes.storage]: undefined;
   [Routes.beacons]: undefined;
+  [Routes.settings]: undefined;
 };
 
 // region Screen props
@@ -66,6 +68,8 @@ export type RegionsProps = StackScreenProps<RootStackParamList, Routes.regions>;
 export type StorageProps = StackScreenProps<RootStackParamList, Routes.storage>;
 
 export type BeaconsProps = StackScreenProps<RootStackParamList, Routes.beacons>;
+
+export type SettingsProps = StackScreenProps<RootStackParamList, Routes.settings>;
 
 // endregion
 

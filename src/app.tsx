@@ -24,6 +24,7 @@ import { Storage } from './containers/storage';
 import { Inbox } from './containers/inbox';
 import { Regions } from './containers/regions';
 import { Beacons } from './containers/beacons';
+import { Settings } from './containers/settings';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
@@ -125,6 +126,8 @@ export const App: FC = () => {
           <RootStack.Screen name={Routes.storage} component={Storage} options={{ title: 'Storage' }} />
 
           <RootStack.Screen name={Routes.beacons} component={Beacons} options={{ title: 'Beacons' }} />
+
+          <RootStack.Screen name={Routes.settings} component={Settings} options={{ title: 'Settings' }} />
         </RootStack.Navigator>
       </NavigationContainer>
     </ThemeProvider>
