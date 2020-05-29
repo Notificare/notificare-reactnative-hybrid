@@ -9,7 +9,7 @@ export const ProtectedComponent: FC<ProtectedComponentProps> = (props) => {
   const [state] = useNetworkRequest(() => notificare.isLoggedIn(), { autoStart: true });
 
   const { component: Component, ...others } = props;
-  const { navigation } = props;
+  const { navigation, route } = props;
 
   if (state.status === 'idle' || state.status === 'pending') {
     navigation.setOptions({
@@ -32,7 +32,7 @@ export const ProtectedComponent: FC<ProtectedComponentProps> = (props) => {
         title: 'Sign in',
       });
 
-      return <SignIn />;
+      return <SignIn navigation={navigation} route={route} />;
     }
   }
 
@@ -42,4 +42,5 @@ export const ProtectedComponent: FC<ProtectedComponentProps> = (props) => {
 interface ProtectedComponentProps {
   component: ComponentType<any>;
   navigation: any;
+  route: any;
 }
