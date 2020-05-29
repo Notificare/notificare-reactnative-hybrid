@@ -100,8 +100,12 @@ export const Inbox: FC<InboxProps> = ({ navigation }) => {
     if (!selectedItems.length) {
       navigation.setOptions({
         title: 'Inbox',
-        headerRight: () => (
-          <Button type="clear" icon={<Icon type="material" name="delete-sweep" />} onPress={clearInboxItems} />
+        headerRight: ({ tintColor }) => (
+          <Button
+            type="clear"
+            icon={<Icon type="material" name="delete-sweep" color={tintColor} />}
+            onPress={clearInboxItems}
+          />
         ),
       });
     } else {
