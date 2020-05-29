@@ -16,7 +16,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
 export const Settings: FC<SettingsProps> = () => {
-  const notificare = useNotificare();
+  const notificare = useNotificare({
+    onDeviceRegistered: () => setTimeout(() => reloadData(), 1000),
+    onNotificationSettingsChanged: () => setTimeout(() => reloadData(), 1000),
+  });
   const [request, requestActions] = useNetworkRequest(() => loadData(), {
     autoStart: true,
     onStarted: () => setLoading(true),
@@ -94,6 +97,28 @@ export const Settings: FC<SettingsProps> = () => {
     );
   };
 
+  const updateNotifications = (enabled: boolean) => {
+    setSwitches((prevState) => ({ ...prevState, notifications: enabled }));
+
+    if (enabled) {
+      notificare.registerForNotifications();
+    } else {
+      notificare.unregisterForNotifications();
+    }
+  };
+
+  const updateLocation = (enabled: boolean) => {
+    setSwitches((prevState) => ({ ...prevState, location: enabled }));
+
+    if (enabled) {
+      notificare.startLocationUpdates();
+      notificare.enableBeacons();
+    } else {
+      notificare.stopLocationUpdates();
+      notificare.disableBeacons();
+    }
+  };
+
   const updateDnD = async (enabled: boolean, start?: string, end?: string) => {
     if (start == null && end == null) {
       setSwitches((prevState) => ({ ...prevState, dnd: enabled }));
@@ -145,14 +170,18 @@ export const Settings: FC<SettingsProps> = () => {
               <ListItem
                 primaryText="Notifications"
                 secondaryText="Receive messages with our news, events or any other campaign we might find relevant for you"
-                trailingComponent={<Switch value={switches.notifications} />}
+                trailingComponent={
+                  <Switch value={switches.notifications} onValueChange={(value) => updateNotifications(value)} />
+                }
               />
 
               {request.result.useLocationServices && (
                 <ListItem
                   primaryText="Location Services"
                   secondaryText="Allow us to collect your location data in order to send notifications whenever you are around"
-                  trailingComponent={<Switch value={switches.location} />}
+                  trailingComponent={
+                    <Switch value={switches.location} onValueChange={(value) => updateLocation(value)} />
+                  }
                 />
               )}
 

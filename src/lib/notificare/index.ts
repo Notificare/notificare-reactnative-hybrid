@@ -96,8 +96,16 @@ export class Notificare {
     this.notificareModule.startLocationUpdates();
   }
 
+  stopLocationUpdates(): void {
+    this.notificareModule.stopLocationUpdates();
+  }
+
   enableBeacons(): void {
     this.notificareModule.enableBeacons();
+  }
+
+  disableBeacons(): void {
+    this.notificareModule.disableBeacons();
   }
 
   fetchDoNotDisturb(): Promise<NotificareDeviceDnD | undefined> {
@@ -229,6 +237,8 @@ export class Notificare {
   listen(event: 'urlOpened', callback: OnUrlOpenedCallback): void;
 
   listen(event: 'beaconsInRangeForRegion', callback: OnBeaconsInRangeForRegionCallback): void;
+
+  listen(event: 'notificationSettingsChanged', callback: OnBeaconsInRangeForRegionCallback): void;
 
   listen(event: string, callback: (data: any) => void) {
     switch (Platform.OS) {

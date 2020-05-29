@@ -6,6 +6,7 @@ import {
   OnBeaconsInRangeForRegionCallback,
   OnDeviceRegisteredCallback,
   OnInboxLoadedCallback,
+  OnNotificationSettingsChangedCallback,
   OnReadyCallback,
   OnResetPasswordTokenReceivedCallback,
   OnScannableDetectedCallback,
@@ -31,6 +32,8 @@ export const useNotificare: UseNotificareHook = (listeners) => {
     if (listeners?.onUrlOpened) notificare.listen('urlOpened', listeners?.onUrlOpened);
     if (listeners?.onBeaconsInRangeForRegion)
       notificare.listen('beaconsInRangeForRegion', listeners?.onBeaconsInRangeForRegion);
+    if (listeners?.onNotificationSettingsChanged)
+      notificare.listen('notificationSettingsChanged', listeners?.onNotificationSettingsChanged);
 
     return () => notificare.removeListeners();
   }, []);
@@ -51,4 +54,5 @@ interface NotificareListeners {
   onScannableSessionInvalidatedWithError?: OnScannableSessionInvalidatedWithErrorCallback;
   onUrlOpened?: OnUrlOpenedCallback;
   onBeaconsInRangeForRegion?: OnBeaconsInRangeForRegionCallback;
+  onNotificationSettingsChanged?: OnNotificationSettingsChangedCallback;
 }

@@ -19,3 +19,5 @@ export type OnScannableSessionInvalidatedWithErrorCallback = (data: { error: str
 export type OnUrlOpenedCallback = (data: { url: string; options: object }) => void;
 
 export type OnBeaconsInRangeForRegionCallback = (data: { beacons: NotificareBeacon[] }) => void;
+
+export type OnNotificationSettingsChangedCallback = () => void;
