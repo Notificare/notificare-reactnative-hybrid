@@ -25,6 +25,7 @@ import { Inbox } from './containers/inbox';
 import { Regions } from './containers/regions';
 import { Beacons } from './containers/beacons';
 import { Settings } from './containers/settings';
+import { StatusBar } from 'react-native';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
@@ -67,9 +68,23 @@ export const App: FC = () => {
   };
 
   return (
-    <ThemeProvider>
+    <ThemeProvider
+      theme={{
+        colors: {
+          primary: Colors.outerSpace,
+        },
+      }}
+    >
       <NavigationContainer theme={theme}>
-        <RootStack.Navigator initialRouteName={Routes.splash}>
+        <StatusBar backgroundColor={Colors.outerSpace} barStyle="light-content" />
+
+        <RootStack.Navigator
+          initialRouteName={Routes.splash}
+          screenOptions={{
+            headerTintColor: 'white',
+            headerStyle: { backgroundColor: Colors.outerSpace },
+          }}
+        >
           <RootStack.Screen name={Routes.splash} component={Splash} options={{ title: 'Splash', headerShown: false }} />
           <RootStack.Screen
             name={Routes.onboarding}
