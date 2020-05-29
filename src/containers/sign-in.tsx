@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react';
-import { Image, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import HeaderImage from '../assets/images/padlock.png';
-import { Button } from '../components/button';
 import { Colors } from '../lib/theme';
 import { useNotificare } from '../lib/notificare/hooks';
 import { StackActions, useNavigation } from '@react-navigation/native';
@@ -10,6 +9,7 @@ import { useNetworkRequest } from '../lib/machines/network';
 import { Notificare } from '../lib/notificare';
 import { Loader } from '../components/loader';
 import { createMemberCard } from '../lib/utils/loyalty';
+import { Button, Input } from 'react-native-elements';
 
 export const SignIn: FC = () => {
   const navigation = useNavigation();
@@ -49,33 +49,37 @@ export const SignIn: FC = () => {
         <ScrollView contentContainerStyle={styles.container}>
           <Image source={HeaderImage} style={styles.headerImage} />
 
-          <TextInput
-            keyboardType={'email-address'}
+          <Input
+            keyboardType="email-address"
             placeholder="email"
             value={email}
             onChangeText={(text) => setEmail(text)}
-            style={styles.inputField}
           />
 
-          <TextInput
-            keyboardType={'visible-password'}
+          <Input
+            keyboardType="visible-password"
             placeholder="password"
+            secureTextEntry={true}
             value={password}
             onChangeText={(text) => setPassword(text)}
-            style={styles.inputField}
           />
 
           <View style={styles.buttonContainer}>
             <Button
-              text="Forgotten password"
+              type="clear"
+              title="Forgotten password"
               onPress={() => navigation.navigate('forgotpassword')}
-              style={[styles.button, styles.forgotPasswordButton]}
-              textStyle={styles.forgotPasswordButtonText}
+              containerStyle={[styles.button, styles.forgotPasswordButton]}
+              titleStyle={styles.forgotPasswordButtonText}
             />
 
-            <Button text="Sign in" onPress={() => onSignIn()} style={styles.button} />
+            <Button title="Sign in" onPress={() => onSignIn()} containerStyle={styles.button} />
 
-            <Button text="Create an account" onPress={() => navigation.navigate('signup')} style={styles.button} />
+            <Button
+              title="Create an account"
+              onPress={() => navigation.navigate('signup')}
+              containerStyle={styles.button}
+            />
           </View>
         </ScrollView>
       )}
@@ -91,11 +95,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 200,
     resizeMode: 'contain',
+    marginBottom: 32,
   },
   inputField: {
     marginTop: 16,
-    borderBottomColor: Colors.grey,
-    borderBottomWidth: 1,
   },
   buttonContainer: {
     flexShrink: 1,
