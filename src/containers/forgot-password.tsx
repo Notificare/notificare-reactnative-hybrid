@@ -1,16 +1,15 @@
 import React, { FC, useState } from 'react';
 import { Loader } from '../components/loader';
-import { Image, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Image, ScrollView, StyleSheet } from 'react-native';
 import HeaderImage from '../assets/images/key.png';
-import { Button } from '../components/button';
 import { useNotificare } from '../lib/notificare/hooks';
-import { useNavigation } from '@react-navigation/native';
 import { useNetworkRequest } from '../lib/machines/network';
 import { Colors } from '../lib/theme';
 import { showAlertDialog } from '../lib/utils/ui';
+import { Button, Input } from 'react-native-elements';
+import { ForgotPasswordProps } from '../routes';
 
-export const ForgotPassword: FC = () => {
-  const navigation = useNavigation();
+export const ForgotPassword: FC<ForgotPasswordProps> = ({ navigation }) => {
   const notificare = useNotificare();
 
   const [email, setEmail] = useState('');
@@ -40,17 +39,14 @@ export const ForgotPassword: FC = () => {
         <ScrollView contentContainerStyle={styles.container}>
           <Image source={HeaderImage} style={styles.headerImage} />
 
-          <TextInput
+          <Input
             keyboardType={'email-address'}
             placeholder="email"
             value={email}
             onChangeText={(text) => setEmail(text)}
-            style={styles.inputField}
           />
 
-          <View style={styles.buttonContainer}>
-            <Button text="Recover password" onPress={() => onRecoverPasswordPress()} style={styles.button} />
-          </View>
+          <Button title="Recover password" onPress={() => onRecoverPasswordPress()} containerStyle={styles.button} />
         </ScrollView>
       )}
     </>
@@ -65,6 +61,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 200,
     resizeMode: 'contain',
+    marginBottom: 32,
   },
   inputField: {
     marginTop: 16,
