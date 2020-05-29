@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { Colors } from '../lib/theme';
 
 export const Loader: FC = () => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size="large" color={Colors.outerSpace} />
     </View>
   );
 };
