@@ -1,17 +1,16 @@
 import React, { FC, useState } from 'react';
-import { Image, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Image, ScrollView, StyleSheet } from 'react-native';
 import HeaderImage from '../assets/images/account.png';
-import { Button } from '../components/button';
 import { Colors } from '../lib/theme';
 import { useNotificare } from '../lib/notificare/hooks';
-import { useNavigation } from '@react-navigation/native';
 import { showAlertDialog } from '../lib/utils/ui';
 import { useNetworkRequest } from '../lib/machines/network';
 import { Notificare } from '../lib/notificare';
 import { Loader } from '../components/loader';
+import { SignUpProps } from '../routes';
+import { Button, Input } from 'react-native-elements';
 
-export const SignUp: FC = () => {
-  const navigation = useNavigation();
+export const SignUp: FC<SignUpProps> = ({ navigation }) => {
   const notificare = useNotificare();
 
   const [name, setName] = useState('');
@@ -58,41 +57,35 @@ export const SignUp: FC = () => {
         <ScrollView contentContainerStyle={styles.container}>
           <Image source={HeaderImage} style={styles.headerImage} />
 
-          <TextInput
+          <Input
             keyboardType={'name-phone-pad'}
             placeholder="name"
             value={name}
             onChangeText={(text) => setName(text)}
-            style={styles.inputField}
           />
 
-          <TextInput
+          <Input
             keyboardType={'email-address'}
             placeholder="email"
             value={email}
             onChangeText={(text) => setEmail(text)}
-            style={styles.inputField}
           />
 
-          <TextInput
-            keyboardType={'visible-password'}
+          <Input
+            secureTextEntry={true}
             placeholder="password"
             value={password}
             onChangeText={(text) => setPassword(text)}
-            style={styles.inputField}
           />
 
-          <TextInput
-            keyboardType={'visible-password'}
+          <Input
+            secureTextEntry={true}
             placeholder="password confirmation"
             value={passwordConfirmation}
             onChangeText={(text) => setPasswordConfirmation(text)}
-            style={styles.inputField}
           />
 
-          <View style={styles.buttonContainer}>
-            <Button text="Create an account" onPress={() => onSignUp()} style={styles.button} />
-          </View>
+          <Button title="Create an account" onPress={() => onSignUp()} containerStyle={styles.button} />
         </ScrollView>
       )}
     </>
@@ -107,6 +100,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 200,
     resizeMode: 'contain',
+    marginBottom: 32,
   },
   inputField: {
     marginTop: 16,

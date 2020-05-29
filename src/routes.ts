@@ -73,6 +73,8 @@ export type SettingsProps = StackScreenProps<RootStackParamList, Routes.settings
 
 export type SignInProps = StackScreenProps<RootStackParamList, Routes.signIn>;
 
+export type SignUpProps = StackScreenProps<RootStackParamList, Routes.signUp>;
+
 // endregion
 
 // region Route params
