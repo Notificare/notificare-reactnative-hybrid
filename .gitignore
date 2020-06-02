@@ -70,3 +70,7 @@ google-services.json
 
 # Notificare config
 notificareconfig.properties
+Notificare.plist
+
+# iOS secrets
+ios/Demo/Secrets.h

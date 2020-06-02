@@ -48,7 +48,10 @@ export class Notificare {
   }
 
   unmount() {
-    this.notificareModule.unmount();
+    if (Platform.OS === 'android') {
+      this.notificareModule.unmount();
+    }
+
     this.removeListeners();
   }
 

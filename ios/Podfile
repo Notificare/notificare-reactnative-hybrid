@@ -78,11 +78,17 @@ target 'Demo' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   pod 'notificare-push-lib-react-native', :path => '../node_modules/notificare-push-lib-react-native'
-
-  target 'DemoTests' do
-    inherit! :complete
-    # Pods for testing
-  end
+  
+  # React Native Maps dependencies
+  rn_maps_path = '../node_modules/react-native-maps'
+  pod 'react-native-google-maps', :path => rn_maps_path
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils'
+  
+  # React Native Permissions dependencies
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways.podspec"
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
 
   use_native_modules!
 
@@ -93,14 +99,15 @@ target 'Demo' do
   add_flipper_pods!
   post_install do |installer|
     flipper_post_install(installer)
+    
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
+      end
+    end
   end
 end
 
-target 'Demo-tvOS' do
-  # Pods for Demo-tvOS
-
-  target 'Demo-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+target 'notification' do
+  pod 'notificare-push-lib-react-native', :path => '../node_modules/notificare-push-lib-react-native'
 end
