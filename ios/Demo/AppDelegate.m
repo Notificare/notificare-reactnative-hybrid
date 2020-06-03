@@ -1,8 +1,6 @@
 #import "AppDelegate.h"
-#import "Secrets.h"
 #import "NotificareReactNativeIOS.h"
 
-#import <GoogleMaps/GoogleMaps.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -33,9 +31,6 @@ static void InitializeFlipper(UIApplication *application) {
 #if DEBUG
   InitializeFlipper(application);
 #endif
-  
-  // Google maps configuration
-  [GMSServices provideAPIKey:kGoogleMapsApiKey];
   
   [NotificareReactNativeIOS launch:launchOptions];
 

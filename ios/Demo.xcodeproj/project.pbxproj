@@ -13,7 +13,6 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		42960BD32801E101CFB12E84 /* libPods-notification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8B8312030C7C5CC6CBFD55B /* libPods-notification.a */; };
 		B90CDC8D4B6FD2748C11E92C /* libPods-Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED214FD7517C4AD85DFE576 /* libPods-Demo.a */; };
-		F2CBAF5B24865AF200409CB2 /* Secrets.h in Sources */ = {isa = PBXBuildFile; fileRef = F2CBAF5A24865AF200409CB2 /* Secrets.h */; };
 		F2CBAF5D24865CAD00409CB2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2CBAF5C24865CAD00409CB2 /* StoreKit.framework */; };
 		F2CBAF6024865CC900409CB2 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2CBAF5F24865CC900409CB2 /* PassKit.framework */; };
 		F2CBAF6224865EA000409CB2 /* Notificare.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2CBAF6124865EA000409CB2 /* Notificare.plist */; };
@@ -72,7 +71,6 @@
 		EC1EA6E66A72CF438ABCC6BD /* Pods-notification.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notification.release.xcconfig"; path = "Target Support Files/Pods-notification/Pods-notification.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		F2CBAF5A24865AF200409CB2 /* Secrets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Secrets.h; path = Demo/Secrets.h; sourceTree = "<group>"; };
 		F2CBAF5C24865CAD00409CB2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		F2CBAF5E24865CB000409CB2 /* Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Demo.entitlements; path = Demo/Demo.entitlements; sourceTree = "<group>"; };
 		F2CBAF5F24865CC900409CB2 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
@@ -120,7 +118,6 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				F2CBAF5A24865AF200409CB2 /* Secrets.h */,
 			);
 			name = Demo;
 			sourceTree = "<group>";
@@ -465,7 +462,6 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				F2CBAF5B24865AF200409CB2 /* Secrets.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
