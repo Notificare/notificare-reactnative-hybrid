@@ -27,6 +27,7 @@
     "bulma": "^0.8.2",
     "md5": "^2.2.1",
     "moment": "^2.26.0",
+    "notificare-push-lib-react-native": "^2.4.0-beta.1",
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-default-preference": "^1.4.2",

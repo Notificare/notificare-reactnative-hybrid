@@ -89,4 +89,10 @@ static void InitializeFlipper(UIApplication *application) {
     }];
 }
 
+//Required to handle dynamic links
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable __strong))restorationHandler {
+    [[NotificarePushLib shared] continueUserActivity:userActivity restorationHandler:restorationHandler];
+    return YES;
+}
+
 @end

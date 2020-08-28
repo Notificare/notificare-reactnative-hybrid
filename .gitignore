@@ -67,6 +67,7 @@ buck-out/
 
 # Google services
 google-services.json
+agconnect-services.json
 
 # Notificare config
 notificareconfig.properties

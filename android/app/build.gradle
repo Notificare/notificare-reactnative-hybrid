@@ -8,6 +8,7 @@ if (localPropertiesFile.exists()) {
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.huawei.agconnect'
 
 import com.android.build.OutputFile
 
@@ -237,10 +238,14 @@ dependencies {
         implementation jscFlavor
     }
 
-    implementation 're.notifica:notificare-core:2.2.3'
-    implementation 're.notifica:notificare-location:2.2.3'
-    implementation 're.notifica:notificare-beacon:2.2.3'
-    implementation 're.notifica:notificare-scannable:2.2.3'
+    def notificare_version = '2.4.0-beta-4'
+    implementation "re.notifica:notificare-core:$notificare_version"
+    implementation "re.notifica:notificare-core-hms:$notificare_version"
+    implementation "re.notifica:notificare-location:$notificare_version"
+    implementation "re.notifica:notificare-location-hms:$notificare_version"
+    implementation "re.notifica:notificare-beacon:$notificare_version"
+    implementation "re.notifica:notificare-scannable:$notificare_version"
+    implementation "re.notifica:notificare-scannable-hms:$notificare_version"
 }
 
 // Run this once to be able to run the application with BUCK

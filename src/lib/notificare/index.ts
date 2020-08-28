@@ -201,6 +201,18 @@ export class Notificare {
     return this.notificareModule.markAsRead(item);
   }
 
+  markAllAsRead(): Promise<void> {
+    return this.notificareModule.markAllAsRead();
+  }
+
+  requestAlwaysAuthorizationForLocationUpdates(): void {
+    return this.notificareModule.requestAlwaysAuthorizationForLocationUpdates();
+  }
+
+  requestTemporaryFullAccuracyAuthorization(purposeKey: string): void {
+    this.notificareModule.requestTemporaryFullAccuracyAuthorization(purposeKey);
+  }
+
   removeFromInbox(item: NotificareInboxItem): Promise<void> {
     return this.notificareModule.removeFromInbox(item);
   }
@@ -215,6 +227,10 @@ export class Notificare {
 
   presentScannable(scannable: NotificareScannable): void {
     this.notificareModule.presentScannable(scannable);
+  }
+
+  fetchLink(url: string): Promise<string> {
+    return this.notificareModule.fetchLink(url);
   }
 
   // endregion
