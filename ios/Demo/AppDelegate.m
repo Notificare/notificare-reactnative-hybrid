@@ -3,6 +3,7 @@
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
+#import <React/RCTLinkingManager.h>
 #import <React/RCTRootView.h>
 
 #if DEBUG
@@ -31,7 +32,7 @@ static void InitializeFlipper(UIApplication *application) {
 #if DEBUG
   InitializeFlipper(application);
 #endif
-  
+
   [NotificareReactNativeIOS launch:launchOptions];
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
@@ -60,8 +61,10 @@ static void InitializeFlipper(UIApplication *application) {
 
 //Required to handle deep links
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
-    [NotificareReactNativeIOS handleOpenURL:url withOptions:options];
-    return YES;
+    if([NotificareReactNativeIOS handleOpenURL:url withOptions:options]) return YES;
+    if([RCTLinkingManager application:application openURL:url options:options]) return YES;
+
+    return NO;
 }
 
 //Required to handle device registrations

@@ -1,4 +1,10 @@
-import { NotificareApplicationInfo, NotificareBeacon, NotificareInboxItem, NotificareScannable } from './models';
+import {
+  NotificareApplicationInfo,
+  NotificareBeacon,
+  NotificareInboxItem,
+  NotificareNotification,
+  NotificareScannable,
+} from './models';
 
 export type OnReadyCallback = (applicationInfo: NotificareApplicationInfo) => void;
 
@@ -21,3 +27,5 @@ export type OnUrlOpenedCallback = (data: { url: string; options: object }) => vo
 export type OnBeaconsInRangeForRegionCallback = (data: { beacons: NotificareBeacon[] }) => void;
 
 export type OnNotificationSettingsChangedCallback = () => void;
+
+export type OnNotificationReceivedInBackgroundCallback = (notification: NotificareNotification) => void;

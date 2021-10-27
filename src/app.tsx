@@ -50,6 +50,10 @@ export const App: FC = () => {
       }
     },
     onDeviceRegistered: () => console.log('Device is registered.'),
+    onNotificationReceivedInBackground: (notification) => {
+      console.log('Received notification');
+      notificare.presentNotification(notification);
+    },
   });
 
   useEffect(() => {

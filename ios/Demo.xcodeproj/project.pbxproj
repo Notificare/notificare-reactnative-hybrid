@@ -18,6 +18,7 @@
 		F2CBAF6224865EA000409CB2 /* Notificare.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2CBAF6124865EA000409CB2 /* Notificare.plist */; };
 		F2CBAF6B2486613400409CB2 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CBAF6A2486613400409CB2 /* NotificationService.m */; };
 		F2CBAF6F2486613400409CB2 /* notification.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F2CBAF672486613400409CB2 /* notification.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F2DAB38B271ED84E002B5F27 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB38A271ED84E002B5F27 /* Empty.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,8 @@
 		F2CBAF6A2486613400409CB2 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
 		F2CBAF6C2486613400409CB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2CBAF742486934F00409CB2 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		F2DAB36B271DC35A002B5F27 /* Demo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Demo-Bridging-Header.h"; sourceTree = "<group>"; };
+		F2DAB38A271ED84E002B5F27 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
 		FEFA317AEDF5E29ED09D9D59 /* Pods-Demo-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Demo-tvOSTests/Pods-Demo-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,6 +121,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				F2DAB38A271ED84E002B5F27 /* Empty.swift */,
+				F2DAB36B271DC35A002B5F27 /* Demo-Bridging-Header.h */,
 			);
 			name = Demo;
 			sourceTree = "<group>";
@@ -213,6 +218,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				C89AD5B98F37B180946FDD0C /* [CP] Copy Pods Resources */,
 				F2CBAF732486613400409CB2 /* Embed App Extensions */,
+				6F1DBC2C99E44F09DC81EDDE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -249,11 +255,11 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1300;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = Y47BY73NFN;
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1300;
 					};
 					F2CBAF662486613400409CB2 = {
 						CreatedOnToolsVersion = 11.5;
@@ -360,6 +366,26 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-notification/Pods-notification-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		6F1DBC2C99E44F09DC81EDDE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Demo/Pods-Demo-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/double-conversion/double-conversion.framework/double-conversion",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Demo/Pods-Demo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C89AD5B98F37B180946FDD0C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -464,6 +490,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				F2DAB38B271ED84E002B5F27 /* Empty.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +551,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo;
 				PRODUCT_NAME = Demo;
+				SWIFT_OBJC_BRIDGING_HEADER = "Demo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -552,6 +580,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo;
 				PRODUCT_NAME = Demo;
+				SWIFT_OBJC_BRIDGING_HEADER = "Demo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -581,6 +610,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -590,6 +620,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -641,6 +672,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -650,6 +682,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

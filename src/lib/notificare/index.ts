@@ -5,6 +5,7 @@ import {
   OnBeaconsInRangeForRegionCallback,
   OnDeviceRegisteredCallback,
   OnInboxLoadedCallback,
+  OnNotificationReceivedInBackgroundCallback,
   OnReadyCallback,
   OnResetPasswordTokenReceivedCallback,
   OnScannableDetectedCallback,
@@ -15,6 +16,7 @@ import {
   NotificareAsset,
   NotificareDeviceDnD,
   NotificareInboxItem,
+  NotificareNotification,
   NotificareScannable,
   NotificareUser,
   NotificareUserPreference,
@@ -193,6 +195,10 @@ export class Notificare {
     return this.notificareModule.fetchInbox();
   }
 
+  presentNotification(notification: NotificareNotification): void {
+    this.notificareModule.presentNotification(notification);
+  }
+
   presentInboxItem(item: NotificareInboxItem): void {
     this.notificareModule.presentInboxItem(item);
   }
@@ -258,6 +264,8 @@ export class Notificare {
   listen(event: 'beaconsInRangeForRegion', callback: OnBeaconsInRangeForRegionCallback): void;
 
   listen(event: 'notificationSettingsChanged', callback: OnBeaconsInRangeForRegionCallback): void;
+
+  listen(event: 'remoteNotificationReceivedInBackground', callback: OnNotificationReceivedInBackgroundCallback): void;
 
   listen(event: string, callback: (data: any) => void) {
     switch (Platform.OS) {
