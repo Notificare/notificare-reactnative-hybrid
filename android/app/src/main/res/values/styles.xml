@@ -5,6 +5,10 @@
 
     </style>
 
+    <style name="AppTheme.ActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- customise when appropriate -->
+    </style>
+
     <style name="AppTheme.Translucent">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
