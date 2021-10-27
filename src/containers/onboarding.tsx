@@ -36,6 +36,10 @@ export const Onboarding: FC = () => {
     const granted = (await checkLocationPermission()) || (await requestLocationPermission());
     if (!granted) {
       console.log('The user did not grant the location permission.');
+
+      await setOnboardingStatus(true);
+      navigation.dispatch(StackActions.replace('home'));
+
       return;
     }
 
